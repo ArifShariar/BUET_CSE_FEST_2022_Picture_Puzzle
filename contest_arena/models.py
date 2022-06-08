@@ -1,20 +1,22 @@
+from uuid import uuid4
 from django.db import models
 
 
-# Create your models here.
-
 def get_meme_image_upload_path(instance, name):
-    print(instance.meme_id)
-    return 'meme_images/{0}/{1}'.format(instance.meme_id, name)
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    ext = name.split('.')[-1]
+    filename = '{}.{}'.format(uuid4().hex, ext)
+    return 'meme_images/{0}'.format(filename)
 
 
 def get_meme_sound_upload_path(instance, name):
-    return 'meme_sounds/{0}/{1}'.format(instance.meme_id, name)
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    ext = name.split('.')[-1]
+    filename = '{}.{}'.format(uuid4().hex, ext)
+    return 'meme_sounds/{0}'.format(filename)
 
 
 class Meme(models.Model):
-    # # add an image field
-    meme_id = models.AutoField(unique=True)
     image = models.ImageField(upload_to=get_meme_image_upload_path)
     sound = models.FileField(upload_to=get_meme_sound_upload_path)
     text = models.TextField()
