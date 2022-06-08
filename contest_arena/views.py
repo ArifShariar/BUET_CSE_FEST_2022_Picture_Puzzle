@@ -1,11 +1,9 @@
 from django.shortcuts import render
 
 
-# Create your views here.
-
 def home(request):
     return render(request, 'home/home.html')
 
 
-def view_ranking_page(request):
-    return render(request, 'ranking/ranking.html')
+def view_rank_list_page(request):
+    return render(request, 'rank_list/rank_list.html')

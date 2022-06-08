@@ -1,24 +1,13 @@
-from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from user.models import *
-
 from django.contrib import messages
-
 from django.shortcuts import render, redirect
 from .forms import *
 
 
-# Create your views here.
-
-
-def register(request):
-    return HttpResponse("hello world from register page")
-
-
 def participant_login(request):
-    print("here")
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -28,18 +17,14 @@ def participant_login(request):
         if user is not None:
             login(request, user)
             messages.add_message(request, messages.SUCCESS, 'Welcome back ' + username + '!')
-            participant_info = Participant(user=user)
-
-            level = participant_info.curr_level + 1
-            # return redirect('puzzle:show_puzzle', level)
-            return redirect('logout')
+            return redirect('home')
 
     return render(request, 'contest_arena/login_page.html')
 
 
 def participant_register(request):
     if request.user.is_authenticated:
-        return redirect('logout')
+        return redirect('home')
 
     u_form = UserForm()
     p_form = ParticipantForm()
@@ -54,7 +39,10 @@ def participant_register(request):
             p_form = p_form.save(commit=False)
             p_form.user = user_created
             print("Participant created")
-            return redirect('login')
+
+            # keep user logged in
+            login(request, user_created)
+            return redirect('home')
         else:
             print("Failed to create user")
 
