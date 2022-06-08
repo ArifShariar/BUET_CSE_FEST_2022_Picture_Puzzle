@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+<h1>This is the home page</h1>
+
+
+
+<a href="{% url 'login' %}">You already have an account? Login here.</a><br>
+<a href="{% url 'register' %}">Don't have an account? Register here</a><br>
+<a href="#">View Ranking</a><br>
+<a href={% url 'logout' %}>Log Out</a>
+
+
+</body>
+</html>

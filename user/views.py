@@ -62,4 +62,5 @@ def participant_register(request):
 
 
 def participant_logout(request):
-    return HttpResponse("hello world from logout page")
+    logout(request)
+    return redirect('home')
