@@ -88,6 +88,7 @@ def load_next_puzzle(request, pk):
                 request.user.participant.curr_level += 1
                 request.user.participant.save()
                 to_frontend['msg'] = "Correct answer! You have advanced to the next level"
+                return redirect('puzzle', pk=request.user.participant.curr_level)
             else:
                 to_frontend['msg'] = "Wrong answer! Please try again"
 
