@@ -18,5 +18,6 @@ db.sqlite3
 .idea/**/libraries
 *.iws /out/
 venv/
+media/
 desktop.ini
 .env
