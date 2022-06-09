@@ -20,7 +20,7 @@ class Participant(models.Model):
 
 
 # required for creating a participant profile for superuser
-@receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Participant.objects.create(user=instance)
+# @receiver(post_save, sender=User)
+# def update_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Participant.objects.create(user=instance)
