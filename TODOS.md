@@ -9,8 +9,9 @@ This is a list of tasks left to implement. This list will be updated on the go.
         * verify answer
         * show success meme
         * show motivational (fail) meme
+        * update position
+            * same level hole submission time wise ranking krote hobe
     * frontend
-        * form
         * modal
 * create Stat model for shomobay shomiti
 * record statistics       
@@ -23,4 +24,5 @@ This is a list of tasks left to implement. This list will be updated on the go.
     * view:
         * load next puzzle
     * frontend
+        * form
         *show image

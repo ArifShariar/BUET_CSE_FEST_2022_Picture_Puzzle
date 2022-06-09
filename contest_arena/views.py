@@ -11,8 +11,9 @@ def home(request):
     to_frontend = {
         "user_active": request.user.is_authenticated,
         "user": request.user,
-        "user_level": request.user.participant.curr_level,
     }
+    if request.user.is_authenticated:
+        to_frontend["user_level"] = request.user.participant.curr_level
 
     print(to_frontend["user_active"])
     print(to_frontend["user"])
@@ -86,6 +87,8 @@ def load_next_puzzle(request, pk):
             if ans.lower() == to_frontend['puzzle'].ans.lower():
                 # increase level
                 request.user.participant.curr_level += 1
+                # update position
+                # request.user.participant.position = Participant.objects.filter(Q)
                 request.user.participant.save()
                 to_frontend['msg'] = "Correct answer! You have advanced to the next level"
                 return redirect('puzzle', pk=request.user.participant.curr_level)
