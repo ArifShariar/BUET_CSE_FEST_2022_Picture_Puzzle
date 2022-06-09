@@ -49,7 +49,7 @@ class Meme(models.Model):
 
 
 class Puzzle(models.Model):
-    id = models.IntegerField(primary_key=True)
+    level = models.IntegerField(null=True)
     info = models.CharField(null=True, blank=True, max_length=300)
     info_link = models.URLField(null=True, blank=True)
     title = models.CharField(max_length=100, null=True, blank=True)

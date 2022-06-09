@@ -31,7 +31,9 @@ if os.path.isfile(dot_env_path):
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
+CONTEST_STARTED = os.getenv('CONTEST_STARTED')
+CONTEST_ENDED = os.getenv('CONTEST_ENDED')
 
 ALLOWED_HOSTS = []
 

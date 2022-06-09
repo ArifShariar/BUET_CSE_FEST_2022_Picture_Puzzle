@@ -10,6 +10,7 @@
 
 {% if user_active %}
     <a href="{% url 'rank_list' %}">View Rank List</a><br>
+    <a href="{% url 'next_puzz' %}">Next Puzzle</a><br>
     <a href={% url 'logout' %}>Log Out</a>
 {% else %}
     <a href="{% url 'login' %}">You already have an account? Login here.</a><br>
