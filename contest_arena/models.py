@@ -1,6 +1,7 @@
 from uuid import uuid4
 from django.db import models
 from django.utils.safestring import mark_safe
+from user.models import Participant
 
 
 # ------------------------------------------------------------>>> Media Files Upload path start <<<--------------------
@@ -76,4 +77,16 @@ class Puzzle(models.Model):
     img_show.allow_tags = True
     img_show.short_description = 'Current Puzzle'
 
+
 # ----------------------------------------------------------------------------->>> Models end <<<----------------------
+
+class PuzzleForm(models.Model):
+    participant = models.OneToOneField(Participant, on_delete=models.CASCADE)
+    puzzle = models.OneToOneField(Puzzle, on_delete=models.CASCADE)
+    ans = models.TextField()
+
+    class META:
+        verbose_name_plural = "PuzzleForm"
+
+    def __str__(self):
+        return self.puzzle.title + " - " + self.participant.user.username + " - " + self.ans

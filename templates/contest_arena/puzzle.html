@@ -10,11 +10,16 @@
     <link href="{% static 'css/signin.css' %}" rel="stylesheet">
     </head>
     <body>
-        <h1>{{ msg }}</h1>
+        <h1>Message: {{ msg }}</h1>
         {% if puzzle %}
             <h2>{{ puzzle.title }}</h2>
             <img class="" src="{{ puzzle.get_image }}" style="margin-top: 50px; max-width:100%;" alt="puzzle.title">
             <h2>answer: {{ puzzle }}</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Submit</button>
+            </form>
         {% endif %}
     </body>
 </html>
