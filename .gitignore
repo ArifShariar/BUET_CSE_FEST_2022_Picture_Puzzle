@@ -20,4 +20,3 @@ db.sqlite3
 venv/
 media/
 desktop.ini
-.env
