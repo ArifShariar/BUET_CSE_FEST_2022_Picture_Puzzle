@@ -1,8 +1,9 @@
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.conf import settings
-from .models import *
+
 from user.models import *
 from .forms import *
 
@@ -21,9 +22,10 @@ def home(request):
     return render(request, 'home/home.html', to_frontend)
 
 
+@login_required(login_url='login')
 def view_rank_list_page(request):
-    if not request.user.is_authenticated:
-        return redirect('home')
+    # if not request.user.is_authenticated:
+    #     return redirect('home')
 
     participants = User.objects.filter(is_staff=False).order_by('participant__position')
 
@@ -41,11 +43,8 @@ def view_rank_list_page(request):
     return render(request, 'rank_list/rank_list.html', to_frontend)
 
 
+@login_required(login_url='login')
 def load_next_puzzle(request, pk):
-    if not request.user.is_authenticated:
-        return redirect('home')
-
-    # if request.method == 'GET':
     if pk < request.user.participant.curr_level:
         return HttpResponse("You have already solved this puzzle!")
     elif pk > request.user.participant.curr_level:
