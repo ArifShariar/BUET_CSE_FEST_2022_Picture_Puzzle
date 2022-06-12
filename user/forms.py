@@ -13,13 +13,13 @@ class UserForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
 
-        self.fields['username'].widget.attrs = {'class': 'form-control', 'placeholder': 'user handle',
+        self.fields['username'].widget.attrs = {'class': 'form-control', 'placeholder': 'User Handle',
                                                 'required': 'required'}
-        self.fields['email'].widget.attrs = {'class': 'form-control', 'placeholder': 'email',
+        self.fields['email'].widget.attrs = {'class': 'form-control', 'placeholder': 'Email',
                                              'required': 'required'}
-        self.fields['password1'].widget.attrs = {'class': 'form-control', 'placeholder': 'password',
+        self.fields['password1'].widget.attrs = {'class': 'form-control', 'placeholder': 'Password',
                                                  'required': 'required'}
-        self.fields['password2'].widget.attrs = {'class': 'form-control', 'placeholder': 'confirm password',
+        self.fields['password2'].widget.attrs = {'class': 'form-control', 'placeholder': 'Confirm Password',
                                                  'required': 'required'}
 
     class Meta:
@@ -33,10 +33,10 @@ class ParticipantForm(forms.ModelForm):
         super(ParticipantForm, self).__init__(*args, **kwargs)
 
         self.fields['acc_type'] = forms.ChoiceField(choices=ACC_TYPE)
-        self.fields['acc_type'].widget.attrs = {'required': 'required'}
+        self.fields['acc_type'].widget.attrs = {'class': 'form-control', 'required': 'required'}
 
         self.fields['student_ID'].widget.attrs = {'class': 'form-control', 'required': 'required',
-                                                  'placeholder': 'student id'}
+                                                  'placeholder': 'Student Id'}
 
     class Meta:
         model = Participant

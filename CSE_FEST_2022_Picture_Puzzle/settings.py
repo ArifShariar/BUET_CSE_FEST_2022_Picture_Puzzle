@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'user',
     'contest_arena',
     'shomobay_shomiti_detector',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
