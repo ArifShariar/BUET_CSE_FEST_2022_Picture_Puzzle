@@ -35,7 +35,7 @@ DEBUG = os.getenv('DEBUG')
 CONTEST_STARTED = os.getenv('CONTEST_STARTED')
 CONTEST_ENDED = os.getenv('CONTEST_ENDED')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ppuzzle.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
