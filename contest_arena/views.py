@@ -45,6 +45,7 @@ def view_rank_list_page(request):
     return render(request, 'rank_list/rank_list.html', to_frontend)
 
 
+@login_required(login_url='login')
 def hack(request):
     to_frontend = {
         "user_active": request.user.is_authenticated,

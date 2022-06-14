@@ -1,25 +1,35 @@
 {% extends 'base/base.html' %}
 {% block content %}
     <section class="register-photo">
-    <div class="form-container">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <h2 class="text-center"><strong>Register</strong></h2>
-            <div class="form-group">{{ u_form.username }}</div>
-            <div class="form-group">{{ u_form.email }}</div>
-            <div class="form-group">{{ u_form.password1 }}</div>
-            <div class="form-group">{{ u_form.password2 }}</div>
-            <div class="form-group">{{ p_form.acc_type }}</div>
-            <div class="form-group">{{ p_form.student_ID }}</div>
+        <div class="form-container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h2 class="text-center"><strong>Register</strong></h2>
+                <div class="form-group">{{ u_form.username }}</div>
+                <div class="form-group">{{ u_form.email }}</div>
+                <div class="form-group">{{ u_form.password1 }}</div>
+                <div class="form-group">{{ u_form.password2 }}</div>
+                <div class="form-group">{{ p_form.acc_type }}</div>
+                <div class="form-group">{{ p_form.student_ID }}</div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block" >Register</button>
-            </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </div>
 
-        </form>
-    </div>
+            </form>
+        </div>
 
     </section>
+
+    <div>
+        {% if messages %}
+            <div class="alert-danger">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 
 
 

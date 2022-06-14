@@ -16,8 +16,10 @@ def participant_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.add_message(request, messages.SUCCESS, 'Welcome back ' + username + '!')
+            # messages.add_message(request, messages.SUCCESS, 'Welcome back ' + username + '!')
             return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password')
 
     return render(request, 'contest_arena/login_page.html')
 
@@ -45,6 +47,10 @@ def participant_register(request):
             login(request, user_created)
             return redirect('home')
         else:
+            for err in p_form.errors:
+                messages.error(request, p_form.errors[err])
+            for err in u_form.errors:
+                messages.error(request, u_form.errors[err])
             print("Failed to create user")
 
     return render(request, 'auth/register.html', {'u_form': u_form, 'p_form': p_form})
