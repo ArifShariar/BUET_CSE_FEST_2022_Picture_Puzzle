@@ -30,6 +30,12 @@ def get_puzzle_upload_path(instance, filename):
     return 'puzzles/{0}'.format(filename)
 
 
+def get_hackerman_image_upload_path(instance, name):
+    ext = name.split('.')[-1]
+    filename = '{}.{}'.format(uuid4().hex, ext)
+    return 'hackerman/{0}'.format(filename)
+
+
 # ------------------------------------------------------------>>> Media Files Upload path end <<<----------------------
 
 
@@ -90,3 +96,44 @@ class PuzzleForm(models.Model):
 
     def __str__(self):
         return self.puzzle.title + " - " + self.participant.user.username + " - " + self.ans
+
+
+class HackerManImage(models.Model):
+    image = models.ImageField(upload_to=get_hackerman_image_upload_path)
+    image_for = models.IntegerField(default=-1, help_text="Alum = 0 & Student = 1")
+
+    def get_image(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+        return None
+
+    def img_show(self):  # receives the instance as an argument
+        return mark_safe('<img src="{thumb}" width="200" height="150" />'.format(
+            thumb=self.image.url,
+        ))
+
+    img_show.allow_tags = True
+    img_show.short_description = 'Current Hackerman Image'
+
+    class META:
+        verbose_name_plural = "Hacker Man Images"
+
+
+class AlumniHackermanQuotes(models.Model):
+    message = models.CharField(max_length=200, blank=False)
+
+    def __str__(self):
+        return self.message
+
+    class META:
+        verbose_name_plural = "Alumni Hackerman Quotes"
+
+
+class CurrentStudentHackerQuotes(models.Model):
+    message = models.CharField(max_length=200, blank=False)
+
+    def __str__(self):
+        return self.message
+
+    class META:
+        verbose_name_plural = "Current Student Hacker Quotes"

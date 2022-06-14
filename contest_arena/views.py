@@ -1,15 +1,13 @@
-import glob
 import random
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 
 from user.models import *
 from .forms import *
-from CSE_FEST_2022_Picture_Puzzle.settings import MEDIA_ROOT
 
 
 def home(request):
@@ -48,34 +46,23 @@ def view_rank_list_page(request):
 
 
 def hack(request):
-    # TODO: in my opinion, this is not the way to do it, we can create a model in the database to store the
-    #       quotes and the images, and then we can use the model to get the quotes and images randomly
-    #       from the database. Moreover, storing images in files MANUALLY not loading it
-
     to_frontend = {
         "user_active": request.user.is_authenticated,
         "user": request.user,
     }
-    senior_hacker_quote = [
-        'ভাই আমার গার্লফ্রেন্ডের ফেইসবুক একাউন্টটা হ্যাক করে দিবা ?',
-        'স্যারা ভাই স্যারা.......... পুরা হ্যাকার',
-        'ও বাই ও বাই.......... স্যারা',
-        'স্যারা ভাই স্যারা.......... পুরা হ্যাকার',
-        'ping cute-hamster.com',
-        'Ever wonder Freddie Mercury was also a black hat hacker like you'
-    ]
-    hacker_man_images = []
 
-    hacker_man_image_dir = MEDIA_ROOT + '\hackerman\\'
-    print(hacker_man_image_dir)
-    for filename in glob.iglob(hacker_man_image_dir + "**/*.jpg", recursive=True):
-        hacker_man_images.append(filename)
-
-    random_quote = senior_hacker_quote[random.randint(0, len(senior_hacker_quote) - 1)]
-    random_img = hacker_man_images[random.randint(0, len(hacker_man_images) - 1)]
-
-    to_frontend["random_quote"] = random_quote
-    to_frontend["random_img"] = random_img
+    # if the user is alumni
+    if request.user.participant.acc_type == 1:
+        image = HackerManImage.objects.get(id=random.randint(1, HackerManImage.objects.count()))
+        to_frontend["random_image"] = image
+        random_quote = AlumniHackermanQuotes.objects.get(id=random.randint(1, AlumniHackermanQuotes.objects.count()))
+        to_frontend["random_quote"] = random_quote
+    else:
+        image = HackerManImage.objects.get(id=random.randint(1, HackerManImage.objects.count()))
+        to_frontend["random_image"] = image
+        random_quote = CurrentStudentHackerQuotes.objects.get(
+            id=random.randint(1, CurrentStudentHackerQuotes.objects.count()))
+        to_frontend["random_quote"] = random_quote
 
     return render(request, 'contest_arena/hacker.html', to_frontend)
 
@@ -84,8 +71,10 @@ def hack(request):
 def load_next_puzzle(request, pk):
     if pk < request.user.participant.curr_level:
         return HttpResponse("You have already solved this puzzle!")
-    elif pk > request.user.participant.curr_level:
+    elif pk > request.user.participant.curr_level and settings.SHOW_HACK:
         return redirect('hackerman')
+    elif pk > request.user.participant.curr_level and not settings.SHOW_HACK:
+        return HttpResponseNotFound("You can't solve this now!")
 
     form = PuzzleAnsForm()
     to_frontend = {

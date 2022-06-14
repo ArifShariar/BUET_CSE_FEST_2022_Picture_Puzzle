@@ -34,6 +34,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 CONTEST_STARTED = os.getenv('CONTEST_STARTED')
 CONTEST_ENDED = os.getenv('CONTEST_ENDED')
+SHOW_HACK = os.getenv('SHOW_HACK')
 
 ALLOWED_HOSTS = ['ppuzzle.herokuapp.com', '127.0.0.1']
 

@@ -2,6 +2,7 @@
 
 This is a list of tasks left to implement. This list will be updated on the go.
 
+* hacker man .env control not working correctly, fix that.
 * add pop up messages for login, logout, and register 
     * pass from backend
 * create contest page 
