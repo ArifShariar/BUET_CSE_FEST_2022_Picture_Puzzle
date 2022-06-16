@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Picture Puzzle</title>
-</head>
-<body>
-<h1>
-    Why you heck me :(
-
-</h1>
+{% extends 'base/base.html' %}
+{% block content %}
+    <h1>Why you heck me :( </h1>
     <br>
     <h1>{{ random_quote }}</h1>
     <img src="{{ random_image.get_image }}" alt="Meme not loading">
-</body>
-</html>
+{% endblock %}
+
