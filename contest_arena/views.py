@@ -21,7 +21,7 @@ def home(request):
     print(to_frontend["user_active"])
     print(to_frontend["user"])
 
-    return render(request, 'home/home.html', to_frontend)
+    return render(request, 'contest_arena/home.html', to_frontend)
 
 
 @login_required(login_url='login')
@@ -42,7 +42,7 @@ def view_rank_list_page(request):
         "rank_list": rank_list,
     }
 
-    return render(request, 'rank_list/rank_list.html', to_frontend)
+    return render(request, 'contest_arena/leaderboard.html', to_frontend)
 
 
 @login_required(login_url='login')

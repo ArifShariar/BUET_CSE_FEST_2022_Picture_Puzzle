@@ -53,7 +53,7 @@ def participant_register(request):
                 messages.error(request, u_form.errors[err])
             print("Failed to create user")
 
-    return render(request, 'auth/register.html', {'u_form': u_form, 'p_form': p_form})
+    return render(request, 'contest_arena/register.html', {'u_form': u_form, 'p_form': p_form})
 
 
 def participant_logout(request):
