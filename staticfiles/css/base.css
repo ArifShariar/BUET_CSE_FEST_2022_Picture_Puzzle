@@ -1,0 +1,26 @@
+.mybutton {
+  color: white;
+  background-color: #290f5c;
+  border-color: #4C0070;
+}
+
+.mybutton:hover {
+  color: white;
+  background-color: rgb(0, 0, 54);
+}
+
+
+.mybutton-light {
+  color: #4C0070;
+  background-color: white;
+  border-color: #4C0070;
+}
+
+.mybutton-light:hover {
+  color: white;
+  background-color: #4C0070;
+}
+
+.shomobay {
+  background-color: red;
+}
