@@ -1,8 +1,47 @@
-{% extends 'base/base.html' %}
-{% block content %}
-    <h1>Why you heck me :( </h1>
-    <br>
-    <h1>{{ random_quote }}</h1>
-    <img src="{{ random_image.get_image }}" alt="Meme not loading">
-{% endblock %}
+{% load static %}
 
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>BUET CSE FEST 2022 Picture Puzzle</title>
+
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    </head>
+
+    <body class="text-center">
+        <div class="container">
+            <main role="main" class="py-lg-5">
+                <h1>Why you heck me :(</h1>
+                <h2 class="mt-5">{{ random_quote }}</h2>
+                {% if random_image %}
+                    <img class="mt-4 w-75" src="{{ random_image.get_image }}" alt="meme">
+                {% else %}
+{#                dummy image#}
+                    <img class="mt-4 w-75" src="{% static 'images/7ee35c124398243.Y3JvcCwzNDA5LDI2NjcsMjk1LDA.png' %}" alt="meme">
+                {% endif %}
+            </main>
+        </div>
+        {% include 'base/footer.html' %}
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+{#{% extends 'base/base.html' %}#}
+{#{% block content %}#}
+{#    <h1>Why you heck me :( </h1>#}
+{#    <br>#}
+{#    <h1>{{ random_quote }}</h1>#}
+{#    <img src="{{ random_image.get_image }}" alt="Meme not loading">#}
+{#{% endblock %}#}
+{##}

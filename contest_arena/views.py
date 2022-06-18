@@ -25,7 +25,7 @@ def home(request):
 
 
 @login_required(login_url='login')
-def view_rank_list_page(request):
+def view_leaderboard_page(request):
     # if not request.user.is_authenticated:
     #     return redirect('home')
 
@@ -40,6 +40,7 @@ def view_rank_list_page(request):
         "user_active": request.user.is_authenticated,
         "user": request.user,
         "rank_list": rank_list,
+        "user_level" : request.user.participant.curr_level,
     }
 
     return render(request, 'contest_arena/leaderboard.html', to_frontend)
@@ -51,6 +52,10 @@ def hack(request):
         "user_active": request.user.is_authenticated,
         "user": request.user,
     }
+
+    if HackerManImage.objects.count() == 0:
+        # temporary fix
+        return render(request, 'contest_arena/hacker.html', to_frontend)
 
     # if the user is alumni
     if request.user.participant.acc_type == 1:

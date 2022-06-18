@@ -21,7 +21,7 @@ def participant_login(request):
         else:
             messages.error(request, 'Invalid username or password')
 
-    return render(request, 'contest_arena/login_page.html')
+    return render(request, 'contest_arena/login.html')
 
 
 def participant_register(request):

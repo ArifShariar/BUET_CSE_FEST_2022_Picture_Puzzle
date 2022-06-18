@@ -15,15 +15,28 @@ This is a list of tasks left to implement. This list will be updated on the go.
     * frontend
         * modal
 * create Stat model for shomobay shomiti
-* record statistics       
-* rearrange the templates 
+* record statistics
+* leaderboard 
+    * position
+    * pageinator
+    * shomobay
+    * remove student id, only keep handle  
+* login 
+    * frontend -> do smth about the message line no. 50 
+* register
+    * input constraints
+    * id check 
+    
+* frontend
+    * masthead brand to homepage link fix
+    * puzzle message fix
+    * puzzle fix {{form}} like dummy input
+    
+* hackermar bug empty range for randrange() (1, 1, 0) fix 
+
     
 
 ## Updates in last version
-- created puzzle model in contest arena
-- created contest page 
-    * view:
-        * load next puzzle
-    * frontend
-        * form
-        *show image
+* rearranged the templates 
+* frontend
+* hackermar bug empty range for randrange() (1, 1, 0) temporarily fixed
