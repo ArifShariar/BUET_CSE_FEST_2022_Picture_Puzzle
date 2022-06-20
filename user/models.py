@@ -1,7 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.db import models
 
 
 class Participant(models.Model):
@@ -11,13 +9,14 @@ class Participant(models.Model):
     student_ID = models.IntegerField(default=0)
     curr_level = models.IntegerField(default=0)
     position = models.IntegerField(default=0)
+    # this field will be used by the admin to temporarily activate or deactivate a participant
+    isActive = models.BooleanField(default=True)
 
     def __str__(self):
         return self.user.username
 
     class Meta:
         db_table = 'user_participant'
-
 
 # required for creating a participant profile for superuser
 # @receiver(post_save, sender=User)
