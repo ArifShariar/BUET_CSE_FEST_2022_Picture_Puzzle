@@ -1,0 +1,44 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>BUET CSE FEST 2022 Picture Puzzle</title>
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="{% static 'css/base.css' %}" rel="stylesheet">
+        <link href="{% static 'css/home.css' %}" rel="stylesheet">
+
+    </head>
+
+    <body class="text-center background-image">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <header class="masthead mb-auto">
+                <div class="inner">
+                    <a class="masthead-brand h3 nav-link" href="{% url 'home' %}">Picture Puzzle</a>
+                    <nav class="nav nav-masthead justify-content-center">
+                        {% if user_active %}
+                            <a class="nav-link" href="{% url 'leaderboard' %}">Leaderboard</a>
+                            <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                        {% else %}
+                            <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        {% endif %}
+                    </nav>
+                </div>
+            </header>
+
+            <main role="main">
+                <div class="container w-50">
+                    <h1>{{ message }}</h1>
+
+                </div>
+            </main>
+
+            {% include 'base/footer.html' %}
+        </div>
+    </body>
+</html>
+

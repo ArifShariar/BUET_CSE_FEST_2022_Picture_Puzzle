@@ -40,7 +40,7 @@ def view_leaderboard_page(request):
         "user_active": request.user.is_authenticated,
         "user": request.user,
         "rank_list": rank_list,
-        "user_level" : request.user.participant.curr_level,
+        "user_level": request.user.participant.curr_level,
     }
 
     return render(request, 'contest_arena/leaderboard.html', to_frontend)
@@ -74,6 +74,17 @@ def hack(request):
 
 
 @login_required(login_url='login')
+def banned(request):
+    to_frontend = {
+        "user_active": request.user.is_authenticated,
+        "user": request.user,
+        "puzzle": None,
+        "message": "You are banned from the contest. Please contact the contest administrator for more information."
+    }
+    return render(request, 'contest_arena/banned.html', to_frontend)
+
+
+@login_required(login_url='login')
 def load_next_puzzle(request, pk):
     if pk < request.user.participant.curr_level:
         return HttpResponse("You have already solved this puzzle!")
@@ -81,6 +92,9 @@ def load_next_puzzle(request, pk):
         return redirect('hackerman')
     elif pk > request.user.participant.curr_level and not settings.SHOW_HACK:
         return HttpResponseNotFound("You can't solve this now!")
+
+    elif not request.user.participant.isActive:
+        return redirect('banned')
 
     form = PuzzleAnsForm()
     to_frontend = {

@@ -126,7 +126,7 @@ class AlumniHackermanQuotes(models.Model):
         return self.message
 
     class META:
-        verbose_name_plural = "Alumni Hackerman Quotes"
+        verbose_name_plural = "Alumni Hackerman Quote"
 
 
 class CurrentStudentHackerQuotes(models.Model):
@@ -136,4 +136,4 @@ class CurrentStudentHackerQuotes(models.Model):
         return self.message
 
     class META:
-        verbose_name_plural = "Current Student Hacker Quotes"
+        verbose_name_plural = "Current Student Hacker Quote"
