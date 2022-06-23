@@ -84,20 +84,6 @@ class Puzzle(models.Model):
     img_show.short_description = 'Current Puzzle'
 
 
-# ----------------------------------------------------------------------------->>> Models end <<<----------------------
-
-class PuzzleForm(models.Model):
-    participant = models.OneToOneField(Participant, on_delete=models.CASCADE)
-    puzzle = models.OneToOneField(Puzzle, on_delete=models.CASCADE)
-    ans = models.TextField()
-
-    class META:
-        verbose_name_plural = "PuzzleForm"
-
-    def __str__(self):
-        return self.puzzle.title + " - " + self.participant.user.username + " - " + self.ans
-
-
 class HackerManImage(models.Model):
     image = models.ImageField(upload_to=get_hackerman_image_upload_path)
     image_for = models.IntegerField(default=-1, help_text="Alum = 0 & Student = 1")
@@ -137,3 +123,17 @@ class CurrentStudentHackerQuote(models.Model):
 
     class META:
         verbose_name_plural = "Current Student Hackerman Quote"
+
+
+# ----------------------------------------------------------------------------->>> Models end <<<----------------------
+
+class PuzzleForm(models.Model):
+    participant = models.OneToOneField(Participant, on_delete=models.CASCADE)
+    puzzle = models.OneToOneField(Puzzle, on_delete=models.CASCADE)
+    ans = models.TextField()
+
+    class META:
+        verbose_name_plural = "PuzzleForm"
+
+    def __str__(self):
+        return self.puzzle.title + " - " + self.participant.user.username + " - " + self.ans
