@@ -37,17 +37,22 @@
 
         <div class="container">
             <main role="main" class="py-lg-5">
-                <!-- <h1>Message: {{ msg }}</h1> -->
+                {% if msg %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ msg }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
 
                 {% if puzzle %}
                     <h2 class="mt-5">{{ puzzle.title }}</h2>
-                    <img class="mt-4 w-75" src="{{ puzzle.get_image }}" alt="puzzle.title">
+                    <img class="mt-4 mw-75 mh-75" src="{{ puzzle.get_image }}" alt="puzzle.title">
                     <form method="post">
                         {% csrf_token %}
                         <div class="container mt-5 mb-5 w-50">
-                            <!-- dummy input field -->
-                            <input class="form-control validate" type="text" id="dummy" name="dummy" placeholder="dummy" required>
-{#                            {{ form }}#}
+                            {{ form.ans }}
                             <button class="btn btn-lg mybutton btn-block mt-3" type="submit">Submit</button>
                         </div>
                     </form>

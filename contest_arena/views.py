@@ -1,3 +1,4 @@
+import datetime
 import random
 
 from django.conf import settings
@@ -29,12 +30,13 @@ def view_leaderboard_page(request):
     # if not request.user.is_authenticated:
     #     return redirect('home')
 
-    participants = User.objects.filter(is_staff=False).order_by('participant__position')
+    # participants = User.objects.filter(is_staff=False, participant__last_successful_submission_time__isnull=False).order_by('participant__curr_level', 'participant__last_successful_submission_time')
+    participants = User.objects.filter(is_staff=False).order_by('participant__curr_level')
 
     rank_list = []
     for p in participants:
         rank_list.append(p)
-        print(p.participant.position, p.username, p.participant.student_ID)
+        print(p.participant.curr_level, p.username, p.participant.student_ID)
 
     to_frontend = {
         "user_active": request.user.is_authenticated,
@@ -79,7 +81,7 @@ def banned(request):
         "user_active": request.user.is_authenticated,
         "user": request.user,
         "puzzle": None,
-        "message": "You are banned from the contest. Please contact the contest administrator for more information."
+        "msg": "You are banned from the contest. Please contact the contest administrator for more information."
     }
     return render(request, 'contest_arena/banned.html', to_frontend)
 
@@ -93,7 +95,7 @@ def load_next_puzzle(request, pk):
     elif pk > request.user.participant.curr_level and not settings.SHOW_HACK:
         return HttpResponseNotFound("You can't solve this now!")
 
-    elif not request.user.participant.isActive:
+    elif request.user.participant.disabled:
         return redirect('banned')
 
     form = PuzzleAnsForm()
@@ -132,8 +134,7 @@ def load_next_puzzle(request, pk):
             if ans.lower() == to_frontend['puzzle'].ans.lower():
                 # increase level
                 request.user.participant.curr_level += 1
-                # update position
-                # request.user.participant.position = Participant.objects.filter(Q)
+                request.user.participant.last_successful_submission_time = datetime.datetime.now()
                 request.user.participant.save()
                 to_frontend['msg'] = "Correct answer! You have advanced to the next level"
                 return redirect('puzzle', pk=request.user.participant.curr_level)

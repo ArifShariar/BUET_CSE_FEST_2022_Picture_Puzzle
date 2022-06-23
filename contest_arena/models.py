@@ -61,7 +61,7 @@ class Puzzle(models.Model):
     info_link = models.URLField(null=True, blank=True)
     title = models.CharField(max_length=100, null=True, blank=True)
     image = models.FileField(upload_to=get_puzzle_upload_path, null=True)
-    ans = models.CharField(null=False, max_length=200)
+    ans = models.CharField(null=False, max_length=50)
     visible = models.BooleanField(default=False)
 
     class Meta:

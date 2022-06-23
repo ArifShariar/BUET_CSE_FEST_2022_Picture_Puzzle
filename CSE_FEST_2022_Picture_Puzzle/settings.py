@@ -27,15 +27,19 @@ if os.path.isfile(dot_env_path):
 
     load_dotenv(dot_env_path)
 
+
+"""-------------------------------------------------- env variables start -----------------------------------------"""
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 CONTEST_STARTED = os.getenv('CONTEST_STARTED')
 CONTEST_ENDED = os.getenv('CONTEST_ENDED')
 SHOW_HACK = os.getenv('SHOW_HACK')
+SHOMOBAY_SHOMITI = os.getenv('SHOMOBAY_SHOMITI')
 
+"""-------------------------------------------------- env variables end -------------------------------------------"""
 ALLOWED_HOSTS = ['ppuzzle.herokuapp.com', '127.0.0.1']
 
 # Application definition

@@ -1,3 +1,5 @@
+import math
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
@@ -41,3 +43,31 @@ class ParticipantForm(forms.ModelForm):
     class Meta:
         model = Participant
         fields = ('acc_type', 'student_ID')
+
+    def clean_student_ID(self, *args, **kwargs):
+        std_id = self.cleaned_data.get('student_ID')
+        acc_type = int(self.cleaned_data.get('acc_type'))
+
+        batch = int(std_id[0:2])
+        dept = int(std_id[2:4])
+        roll = int(std_id[4:7])
+
+        print(std_id, acc_type)
+        print("batch ", batch)
+        print("dept ", dept)
+        print("roll ", roll)
+        print(type(acc_type))
+
+        if dept != 5:
+            raise forms.ValidationError("this is not a valid id")
+
+        if roll > 125:
+            raise forms.ValidationError("this is not a valid id")
+
+        if acc_type == 1 and batch not in range(1, 17):   # need to include 90's batches
+            raise forms.ValidationError("this is not a valid id")
+
+        if acc_type == 2 and batch not in [17, 18, 19, 20]:
+            raise forms.ValidationError("this is not a valid id")
+
+        return std_id
