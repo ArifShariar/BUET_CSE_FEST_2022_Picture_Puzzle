@@ -27,13 +27,13 @@ def home(request):
 
 @login_required(login_url='login')
 def view_leaderboard_page(request):
-    # if not request.user.is_authenticated:
-    #     return redirect('home')
 
     participants = User.objects.filter(is_staff=False, participant__last_successful_submission_time__isnull=False).order_by('-participant__curr_level', 'participant__last_successful_submission_time')
 
     rank_list = []
     for p in participants:
+        # batch
+        p.participant.student_ID = p.participant.student_ID[0:2]
         rank_list.append(p)
         print(p.participant.curr_level, p.username, p.participant.student_ID)
 
