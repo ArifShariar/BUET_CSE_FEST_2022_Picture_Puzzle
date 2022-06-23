@@ -52,12 +52,6 @@ class ParticipantForm(forms.ModelForm):
         dept = int(std_id[2:4])
         roll = int(std_id[4:7])
 
-        print(std_id, acc_type)
-        print("batch ", batch)
-        print("dept ", dept)
-        print("roll ", roll)
-        print(type(acc_type))
-
         if dept != 5:
             raise forms.ValidationError("this is not a valid id")
 

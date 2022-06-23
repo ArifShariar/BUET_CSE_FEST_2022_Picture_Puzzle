@@ -30,8 +30,7 @@ def view_leaderboard_page(request):
     # if not request.user.is_authenticated:
     #     return redirect('home')
 
-    # participants = User.objects.filter(is_staff=False, participant__last_successful_submission_time__isnull=False).order_by('participant__curr_level', 'participant__last_successful_submission_time')
-    participants = User.objects.filter(is_staff=False).order_by('participant__curr_level')
+    participants = User.objects.filter(is_staff=False, participant__last_successful_submission_time__isnull=False).order_by('-participant__curr_level', 'participant__last_successful_submission_time')
 
     rank_list = []
     for p in participants:
@@ -63,13 +62,13 @@ def hack(request):
     if request.user.participant.acc_type == 1:
         image = HackerManImage.objects.get(id=random.randint(1, HackerManImage.objects.count()))
         to_frontend["random_image"] = image
-        random_quote = AlumniHackermanQuotes.objects.get(id=random.randint(1, AlumniHackermanQuotes.objects.count()))
+        random_quote = AlumniHackermanQuote.objects.get(id=random.randint(1, AlumniHackermanQuote.objects.count()))
         to_frontend["random_quote"] = random_quote
     else:
         image = HackerManImage.objects.get(id=random.randint(1, HackerManImage.objects.count()))
         to_frontend["random_image"] = image
-        random_quote = CurrentStudentHackerQuotes.objects.get(
-            id=random.randint(1, CurrentStudentHackerQuotes.objects.count()))
+        random_quote = CurrentStudentHackerQuote.objects.get(
+            id=random.randint(1, CurrentStudentHackerQuote.objects.count()))
         to_frontend["random_quote"] = random_quote
 
     return render(request, 'contest_arena/hacker.html', to_frontend)

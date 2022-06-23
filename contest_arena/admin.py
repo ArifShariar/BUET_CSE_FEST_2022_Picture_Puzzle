@@ -5,5 +5,5 @@ from .models import *
 admin.site.register(Meme)
 admin.site.register(Puzzle)
 admin.site.register(HackerManImage)
-admin.site.register(AlumniHackermanQuotes)
-admin.site.register(CurrentStudentHackerQuotes)
+admin.site.register(AlumniHackermanQuote)
+admin.site.register(CurrentStudentHackerQuote)

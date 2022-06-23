@@ -116,10 +116,10 @@ class HackerManImage(models.Model):
     img_show.short_description = 'Current Hackerman Image'
 
     class META:
-        verbose_name_plural = "Hacker Man Images"
+        verbose_name_plural = "Hackerman Images"
 
 
-class AlumniHackermanQuotes(models.Model):
+class AlumniHackermanQuote(models.Model):
     message = models.CharField(max_length=200, blank=False)
 
     def __str__(self):
@@ -129,11 +129,11 @@ class AlumniHackermanQuotes(models.Model):
         verbose_name_plural = "Alumni Hackerman Quote"
 
 
-class CurrentStudentHackerQuotes(models.Model):
+class CurrentStudentHackerQuote(models.Model):
     message = models.CharField(max_length=200, blank=False)
 
     def __str__(self):
         return self.message
 
     class META:
-        verbose_name_plural = "Current Student Hacker Quote"
+        verbose_name_plural = "Current Student Hackerman Quote"

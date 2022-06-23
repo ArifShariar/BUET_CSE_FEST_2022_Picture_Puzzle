@@ -22,11 +22,13 @@ This is a list of tasks left to implement. This list will be updated on the go.
     
 * frontend
     * puzzle message fix
-    * puzzle fix {{form}} like dummy input
+    
     
 * hackermar bug empty range for randrange() (1, 1, 0) fix 
 * clean .env file -> remove unnecessary variables
+* puzzle answer validation -> need to fix redirect messages
     
 
 ## Updates in last version
 * fixed puzzle page answer input field
+* puzzle fixed {{form}} like dummy input
