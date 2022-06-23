@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 
 from user.models import *
+from shomobay_shomiti_detector.models import *
 from .forms import *
 
 
@@ -130,7 +131,16 @@ def load_next_puzzle(request, pk):
         form = PuzzleAnsForm(request.POST)
         if form.is_valid():
             ans = form.cleaned_data['ans']
+            # add submission
+            submit = Submission.objects.create(participant=request.user.participant,
+                                               level=request.user.participant.curr_level,
+                                               time=datetime.datetime.now(),
+                                               ans=ans)
+
             if ans.lower() == to_frontend['puzzle'].ans.lower():
+                submit.status = 1
+                submit.save()
+
                 # increase level
                 request.user.participant.curr_level += 1
                 request.user.participant.last_successful_submission_time = datetime.datetime.now()
@@ -138,6 +148,9 @@ def load_next_puzzle(request, pk):
                 to_frontend['msg'] = "Correct answer! You have advanced to the next level"
                 return redirect('puzzle', pk=request.user.participant.curr_level)
             else:
+                submit.status = 0
+                submit.save()
+
                 to_frontend['msg'] = "Wrong answer! Please try again"
 
     return render(request, 'contest_arena/puzzle.html', to_frontend)
