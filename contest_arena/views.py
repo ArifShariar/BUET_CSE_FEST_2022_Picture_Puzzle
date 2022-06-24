@@ -43,7 +43,11 @@ def view_leaderboard_page(request):
         "user": request.user,
         "rank_list": rank_list,
         "user_level": request.user.participant.curr_level,
+        "SHOMOBAY_SHOMITI": settings.SHOMOBAY_SHOMITI,
+        "THRESHOLD": settings.THRESHOLD,
     }
+
+    print(to_frontend['THRESHOLD'])
 
     return render(request, 'contest_arena/leaderboard.html', to_frontend)
 

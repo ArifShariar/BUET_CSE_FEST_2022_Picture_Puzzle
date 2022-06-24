@@ -10,7 +10,6 @@ This is a list of tasks left to implement. This list will be updated on the go.
     * pass from backend
 * **shomobay shomiti**
     * model calc_weight()
-    * add leaderboard threshold
     * try cutting down updates by half => participant1_id < participant2_id
     
 * leaderboard 
@@ -30,5 +29,4 @@ This is a list of tasks left to implement. This list will be updated on the go.
     
 
 ## Updates in last version
-* .env control not working correctly, fixed
-* username added in nav bar 
+* added leaderboard threshold

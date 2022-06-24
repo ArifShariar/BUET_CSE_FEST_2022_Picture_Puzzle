@@ -51,8 +51,11 @@
                     </thead>
                     <tbody>
                     {% for p in rank_list %}
-{#                   if shomobay  <tr class="shomobay"> #}
-                        <tr>
+                        <tr
+                        {% if SHOMOBAY_SHOMITI  and p.participant.max_weight > THRESHOLD %}
+                            class="shomobay"
+                        {% endif %}
+                        >
                             <th scope="row">{{ p.participant.curr_level }}</th>
                             <td>{{ p.username }}</td>
                             <td>{{ p.participant.batch }}</td>

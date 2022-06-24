@@ -18,7 +18,8 @@ def reweight(participant):
 
     print()
     print()
-    update_list = []
+    update_list_weights = []
+    update_list_max_weights = []
     for sub in subs:
         if sub.participant.user == participant.user:
             continue
@@ -28,8 +29,10 @@ def reweight(participant):
             prev_weight2 = DetectorGraph.objects.get(participant1=sub.participant, participant2=participant)
         except DetectorGraph.DoesNotExist:
             # starting value of weight
-            prev_weight1 = DetectorGraph.objects.create(participant1=participant, participant2=sub.participant, weight=0)
-            prev_weight2 = DetectorGraph.objects.create(participant1=sub.participant, participant2=participant, weight=0)
+            prev_weight1 = DetectorGraph.objects.create(participant1=participant, participant2=sub.participant,
+                                                        weight=0)
+            prev_weight2 = DetectorGraph.objects.create(participant1=sub.participant, participant2=participant,
+                                                        weight=0)
 
         print("prev_weight ", prev_weight1.weight, prev_weight2.weight)
 
@@ -38,12 +41,21 @@ def reweight(participant):
         prev_weight2.weight = new_weight
         # prev_weight1.save()
         # prev_weight2.save()
-        update_list.append(prev_weight1)
-        update_list.append(prev_weight2)
+        update_list_weights.append(prev_weight1)
+        update_list_weights.append(prev_weight2)
+
+        # update max_weights
+        if participant.max_weight <= new_weight:
+            participant.max_weight = new_weight
+            update_list_max_weights.append(participant)
+        if sub.participant.max_weight <= new_weight:
+            sub.participant.max_weight = new_weight
+            update_list_max_weights.append(sub.participant)
 
         print(participant, sub.participant, diff, new_weight)
 
-    DetectorGraph.objects.bulk_update(update_list, ['weight'])
+    DetectorGraph.objects.bulk_update(update_list_weights, ['weight'])
+    Participant.objects.bulk_update(update_list_max_weights, ['max_weight'])
     print("out reweight------------------------------------------->>")
     print()
 
