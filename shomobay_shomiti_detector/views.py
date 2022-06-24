@@ -1,3 +1,4 @@
+import decimal
 import math
 
 from django.shortcuts import render
@@ -87,11 +88,11 @@ def updateProbabilityForOneTimeStep(B):
     TRANSITION10 = 0.2     # +cheat(t+1)|-cheat(t)
     TRANSITION11 = 0.9     # +cheat(t+1)|+cheat(t)
     """
-    return B * settings.TRANSITION11 + (1 - B) * settings.TRANSITION10
+    return B * decimal.Decimal(settings.TRANSITION11) + (1 - B) * decimal.Decimal(settings.TRANSITION10)
 
 
 def reweighProbabilityBasedOnEvidence(B, evd):
-    new_B = B * EMMISSION1(evd)
-    new_B_ = (1 - B) * EMMISSION0(evd)
+    new_B = B * decimal.Decimal(EMMISSION1(evd))
+    new_B_ = (1 - B) * decimal.Decimal(EMMISSION0(evd))
 
     return new_B / (new_B + new_B_)
