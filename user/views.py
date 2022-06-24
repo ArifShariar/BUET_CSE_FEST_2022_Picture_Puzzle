@@ -40,6 +40,7 @@ def participant_register(request):
             print("User created")
             p_form = p_form.save(commit=False)
             p_form.user = user_created
+            p_form.batch = p_form.student_ID[0:2]
             p_form.save()
             print("Participant created")
 
