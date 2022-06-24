@@ -37,7 +37,11 @@ DEBUG = os.getenv('DEBUG')
 CONTEST_STARTED = os.getenv('CONTEST_STARTED')
 CONTEST_ENDED = os.getenv('CONTEST_ENDED')
 SHOW_HACK = os.getenv('SHOW_HACK')
+
 SHOMOBAY_SHOMITI = os.getenv('SHOMOBAY_SHOMITI')
+MEAN = os.getenv('MEAN')
+DEVIATION = os.getenv('DEVIATION')
+SPREAD = os.getenv('SPREAD')
 
 """-------------------------------------------------- env variables end -------------------------------------------"""
 ALLOWED_HOSTS = ['ppuzzle.herokuapp.com', '127.0.0.1']

@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from user.models import *
 from shomobay_shomiti_detector.models import *
 from .forms import *
+from shomobay_shomiti_detector.views import *
 
 
 def home(request):
@@ -33,8 +34,6 @@ def view_leaderboard_page(request):
 
     rank_list = []
     for p in participants:
-        # batch
-        p.participant.student_ID = p.participant.student_ID[0:2]
         rank_list.append(p)
         print(p.participant.curr_level, p.username, p.participant.student_ID)
 
@@ -134,7 +133,7 @@ def load_next_puzzle(request, pk):
             # add submission
             submit = Submission.objects.create(participant=request.user.participant,
                                                level=request.user.participant.curr_level,
-                                               time=datetime.datetime.now(),
+                                               time=datetime.datetime.now(datetime.timezone.utc),
                                                ans=ans)
 
             if ans.lower() == to_frontend['puzzle'].ans.lower():
@@ -143,9 +142,15 @@ def load_next_puzzle(request, pk):
 
                 # increase level
                 request.user.participant.curr_level += 1
-                request.user.participant.last_successful_submission_time = datetime.datetime.now()
+                request.user.participant.last_successful_submission_time = datetime.datetime.now(datetime.timezone.utc)
                 request.user.participant.save()
                 to_frontend['msg'] = "Correct answer! You have advanced to the next level"
+
+                # shomobay shomiti
+                if settings.SHOMOBAY_SHOMITI:
+                    reweight(request.user.participant)
+
+
                 return redirect('puzzle', pk=request.user.participant.curr_level)
             else:
                 submit.status = 0
