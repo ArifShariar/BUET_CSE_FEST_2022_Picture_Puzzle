@@ -31,3 +31,4 @@ This is a list of tasks left to implement. This list will be updated on the go.
 
 ## Updates in last version
 * .env control not working correctly, fixed
+* username added in nav bar 
