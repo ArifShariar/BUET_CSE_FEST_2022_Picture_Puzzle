@@ -17,6 +17,7 @@ def HMModel(participant):
     print()
     update_list_weights = []
     update_list_max_weights = []
+    participant.max_weight = 0
     for sub in subs:
         if sub.participant.user == participant.user:
             continue
@@ -45,15 +46,16 @@ def HMModel(participant):
         update_list_weights.append(prev_weight2)
 
         # update max_weights
-        if participant.max_weight <= new_weight:
+        if participant.max_weight < new_weight:
             participant.max_weight = new_weight
-            update_list_max_weights.append(participant)
+
         if sub.participant.max_weight <= new_weight:
             sub.participant.max_weight = new_weight
             update_list_max_weights.append(sub.participant)
 
         print(participant, sub.participant, diff, new_weight)
 
+    update_list_max_weights.append(participant)
     DetectorGraph.objects.bulk_update(update_list_weights, ['weight'])
     Participant.objects.bulk_update(update_list_max_weights, ['max_weight'])
     print("out reweight------------------------------------------->>")
@@ -69,7 +71,7 @@ def EMMISSION1(time_diff):
     dev = settings.DEVIATION
 
     e_pow = -pow(math.log(time_diff, math.e) - mean, 2) / (2 * pow(dev, 2))
-    p = pow(math.e, e_pow) / (pow(2 * math.pi, 0.5) * dev)
+    p = pow(math.e, e_pow) * settings.SCALE
 
     return p
 
