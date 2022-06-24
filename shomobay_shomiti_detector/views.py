@@ -6,10 +6,7 @@ from shomobay_shomiti_detector.models import *
 from django.conf import settings
 
 
-# Create your views here.
-
-
-def reweight(participant):
+def HMModel(participant):
     print()
     print("in reweight------------------------------------------->>")
 
@@ -36,7 +33,10 @@ def reweight(participant):
 
         print("prev_weight ", prev_weight1.weight, prev_weight2.weight)
 
-        new_weight = calcWeight(diff, prev_weight1.weight)
+        # HMM
+        new_weight = updateProbabilityForOneTimeStep(prev_weight1.weight)
+        new_weight = reweighProbabilityBasedOnEvidence(new_weight, diff)
+
         prev_weight1.weight = new_weight
         prev_weight2.weight = new_weight
         # prev_weight1.save()
@@ -60,12 +60,36 @@ def reweight(participant):
     print()
 
 
-def calcWeight(time_diff, prev_weight):
+def EMMISSION1(time_diff):
+    """
+        time_diff in seconds
+    """
     time_diff = time_diff / settings.SPREAD
     mean = settings.MEAN
     dev = settings.DEVIATION
 
-    e_pow = -(time_diff - mean) * (time_diff - mean) / (2 * dev * dev)
-    weight = pow(math.e, e_pow) / (pow(2 * math.pi, 0.5) * dev)
+    e_pow = -pow(math.log(time_diff, math.e) - mean, 2) / (2 * pow(dev, 2))
+    p = pow(math.e, e_pow) / (pow(2 * math.pi, 0.5) * dev)
 
-    return weight
+    return p
+
+
+def EMMISSION0(time_diff):
+    return settings.EMMISSION00 if EMMISSION1(time_diff) > 0.5 else settings.EMMISSION01
+
+
+def updateProbabilityForOneTimeStep(B):
+    """
+    TRANSITION00 = 0.8     # -cheat(t+1)|-cheat(t)
+    TRANSITION01 = 0.1     # -cheat(t+1)|+cheat(t)
+    TRANSITION10 = 0.2     # +cheat(t+1)|-cheat(t)
+    TRANSITION11 = 0.9     # +cheat(t+1)|+cheat(t)
+    """
+    return B * settings.TRANSITION11 + (1 - B) * settings.TRANSITION10
+
+
+def reweighProbabilityBasedOnEvidence(B, evd):
+    new_B = B * EMMISSION1(evd)
+    new_B_ = (1 - B) * EMMISSION0(evd)
+
+    return new_B / (new_B + new_B_)

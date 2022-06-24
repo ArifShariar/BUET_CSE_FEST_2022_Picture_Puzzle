@@ -42,6 +42,12 @@ SHOMOBAY_SHOMITI = (os.getenv('SHOMOBAY_SHOMITI') == 'True')
 MEAN = float(os.getenv('MEAN'))
 DEVIATION = float(os.getenv('DEVIATION'))
 SPREAD = float(os.getenv('SPREAD'))
+TRANSITION00 = float(os.getenv('TRANSITION00'))     # -cheat(t+1)|-cheat(t)
+TRANSITION01 = float(os.getenv('TRANSITION01'))     # -cheat(t+1)|+cheat(t)
+TRANSITION10 = float(os.getenv('TRANSITION10'))     # +cheat(t+1)|-cheat(t)
+TRANSITION11 = float(os.getenv('TRANSITION11'))     # +cheat(t+1)|+cheat(t)
+EMMISSION00 = float(os.getenv('EMMISSION00'))     # +time(t)|-cheat(t)
+EMMISSION01 = float(os.getenv('EMMISSION01'))      # -time(t)|-cheat(t)
 THRESHOLD = float(os.getenv('THRESHOLD'))
 
 """-------------------------------------------------- env variables end -------------------------------------------"""

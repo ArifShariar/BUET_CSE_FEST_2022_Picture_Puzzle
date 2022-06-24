@@ -153,7 +153,7 @@ def load_next_puzzle(request, pk):
 
                 # shomobay shomiti
                 if settings.SHOMOBAY_SHOMITI:
-                    reweight(request.user.participant)
+                    HMModel(request.user.participant)
 
                 return redirect('puzzle', pk=request.user.participant.curr_level)
             else:
