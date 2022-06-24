@@ -28,6 +28,9 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link disabled px-3">Welcome, {{ user.username }}</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Log out</a>
                         </li>
@@ -49,11 +52,11 @@
                     <tbody>
                     {% for p in rank_list %}
 {#                   if shomobay  <tr class="shomobay"> #}
-                    <tr>
-                        <th scope="row">{{ p.participant.curr_level }}</th>
-                        <td>{{ p.username }}</td>
-                        <td>{{ p.participant.batch }}</td>
-                    </tr>
+                        <tr>
+                            <th scope="row">{{ p.participant.curr_level }}</th>
+                            <td>{{ p.username }}</td>
+                            <td>{{ p.participant.batch }}</td>
+                        </tr>
                     {% endfor %}
                     </tbody>
                 </table>

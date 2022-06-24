@@ -29,8 +29,9 @@ def home(request):
 
 @login_required(login_url='login')
 def view_leaderboard_page(request):
-
-    participants = User.objects.filter(is_staff=False, participant__last_successful_submission_time__isnull=False).order_by('-participant__curr_level', 'participant__last_successful_submission_time')
+    participants = User.objects.filter(is_staff=False,
+                                       participant__last_successful_submission_time__isnull=False).order_by(
+        '-participant__curr_level', 'participant__last_successful_submission_time')
 
     rank_list = []
     for p in participants:
@@ -149,7 +150,6 @@ def load_next_puzzle(request, pk):
                 # shomobay shomiti
                 if settings.SHOMOBAY_SHOMITI:
                     reweight(request.user.participant)
-
 
                 return redirect('puzzle', pk=request.user.participant.curr_level)
             else:

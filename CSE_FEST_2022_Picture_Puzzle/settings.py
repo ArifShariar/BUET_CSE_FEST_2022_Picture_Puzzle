@@ -33,15 +33,16 @@ if os.path.isfile(dot_env_path):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
-CONTEST_STARTED = os.getenv('CONTEST_STARTED')
-CONTEST_ENDED = os.getenv('CONTEST_ENDED')
-SHOW_HACK = os.getenv('SHOW_HACK')
+DEBUG = (os.getenv('DEBUG') == 'True')
+CONTEST_STARTED = (os.getenv('CONTEST_STARTED') == 'True')
+CONTEST_ENDED = (os.getenv('CONTEST_ENDED') == 'True')
+SHOW_HACK = (os.getenv('SHOW_HACK') == 'True')
 
-SHOMOBAY_SHOMITI = os.getenv('SHOMOBAY_SHOMITI')
-MEAN = os.getenv('MEAN')
-DEVIATION = os.getenv('DEVIATION')
-SPREAD = os.getenv('SPREAD')
+SHOMOBAY_SHOMITI = (os.getenv('SHOMOBAY_SHOMITI') == 'True')
+MEAN = float(os.getenv('MEAN'))
+DEVIATION = float(os.getenv('DEVIATION'))
+SPREAD = float(os.getenv('SPREAD'))
+THRESHOLD = float(os.getenv('THRESHOLD'))
 
 """-------------------------------------------------- env variables end -------------------------------------------"""
 ALLOWED_HOSTS = ['ppuzzle.herokuapp.com', '127.0.0.1']

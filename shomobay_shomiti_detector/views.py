@@ -49,9 +49,9 @@ def reweight(participant):
 
 
 def calcWeight(time_diff, prev_weight):
-    time_diff = time_diff / float(settings.SPREAD)
-    mean = float(settings.MEAN)
-    dev = float(settings.DEVIATION)
+    time_diff = time_diff / settings.SPREAD
+    mean = settings.MEAN
+    dev = settings.DEVIATION
 
     e_pow = -(time_diff - mean) * (time_diff - mean) / (2 * dev * dev)
     weight = pow(math.e, e_pow) / (pow(2 * math.pi, 0.5) * dev)

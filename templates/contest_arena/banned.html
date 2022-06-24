@@ -20,6 +20,7 @@
                     <a class="masthead-brand h3 nav-link" href="{% url 'home' %}">Picture Puzzle</a>
                     <nav class="nav nav-masthead justify-content-center">
                         {% if user_active %}
+                            <a class="nav-link disabled active">Welcome, {{ user.username }}</a>
                             <a class="nav-link" href="{% url 'leaderboard' %}">Leaderboard</a>
                             <a class="nav-link" href="{% url 'logout' %}">Log out</a>
                         {% else %}
@@ -33,7 +34,6 @@
             <main role="main">
                 <div class="container w-50">
                     <h1>{{ message }}</h1>
-
                 </div>
             </main>
 

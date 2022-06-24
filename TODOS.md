@@ -4,17 +4,21 @@ This is a list of tasks left to implement. This list will be updated on the go.
 
 * **show meme** 
 * **hacker man** 
-    * .env control not working correctly, fix that.
     * bug empty range for randrange() (1, 1, 0) fix
 
 * add pop up messages for login, logout, and register 
     * pass from backend
 * **shomobay shomiti**
-    * calculate weight model
+    * model calc_weight()
+    * add leaderboard threshold
+    * try cutting down updates by half => participant1_id < participant2_id
     
 * leaderboard 
     * pageinator
     * shomobay
+
+* **banned**
+    * control url access
 
 * login 
     * frontend -> do smth about the message line no. 50
@@ -26,7 +30,4 @@ This is a list of tasks left to implement. This list will be updated on the go.
     
 
 ## Updates in last version
-* created Stat model for shomobay shomiti
-* weights updating
-* recorded statistics
-* puzzle message fixed
+* .env control not working correctly, fixed
