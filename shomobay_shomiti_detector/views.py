@@ -18,6 +18,7 @@ def reweight(participant):
 
     print()
     print()
+    update_list = []
     for sub in subs:
         if sub.participant.user == participant.user:
             continue
@@ -35,10 +36,14 @@ def reweight(participant):
         new_weight = calcWeight(diff, prev_weight1.weight)
         prev_weight1.weight = new_weight
         prev_weight2.weight = new_weight
-        prev_weight1.save()
-        prev_weight2.save()
+        # prev_weight1.save()
+        # prev_weight2.save()
+        update_list.append(prev_weight1)
+        update_list.append(prev_weight2)
 
         print(participant, sub.participant, diff, new_weight)
+
+    DetectorGraph.objects.bulk_update(update_list, ['weight'])
     print("out reweight------------------------------------------->>")
     print()
 
