@@ -7,7 +7,7 @@ class Participant(models.Model):
     acc_type = models.IntegerField(default=0, help_text="Alum = 1 & Student = 2")
     student_ID = models.CharField(max_length=7, unique=True)
     batch = models.IntegerField(default=0)
-    curr_level = models.IntegerField(default=0)
+    curr_level = models.IntegerField(default=1)
     last_successful_submission_time = models.DateTimeField(null=True)
     max_weight = models.DecimalField(default=0, decimal_places=12, max_digits=30)
     # this field will be used by the admin to temporarily activate or deactivate a participant

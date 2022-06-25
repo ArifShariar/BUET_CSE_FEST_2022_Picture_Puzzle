@@ -81,6 +81,9 @@ def hack(request):
 
 @login_required(login_url='login')
 def banned(request):
+    if not request.user.participant.disabled:
+        redirect('home')
+
     to_frontend = {
         "user_active": request.user.is_authenticated,
         "user": request.user,
@@ -130,7 +133,7 @@ def load_next_puzzle(request, pk):
         to_frontend['msg'] = "Contest has ended"
     else:
         # getting next puzzle
-        puzzle = Puzzle.objects.filter(level=request.user.participant.curr_level + 1, visible=True)
+        puzzle = Puzzle.objects.filter(level=request.user.participant.curr_level, visible=True)
         if not puzzle:
             to_frontend['msg'] = "You have completed all currently available levels. Please wait for more"
         else:
@@ -145,11 +148,11 @@ def load_next_puzzle(request, pk):
             ans = form.cleaned_data['ans']
             # add submission
             submit = Submission.objects.create(participant=request.user.participant,
-                                               level=request.user.participant.curr_level + 1,
+                                               level=request.user.participant.curr_level,
                                                time=datetime.datetime.now(datetime.timezone.utc),
                                                ans=ans)
 
-            if ans.strip().lower() == to_frontend['puzzle'].ans.lower():
+            if ans.strip().lower() == to_frontend['puzzle'].ans.strip().lower():
                 submit.status = 1
                 submit.save()
 
@@ -163,7 +166,7 @@ def load_next_puzzle(request, pk):
                     HMModel(request.user.participant)
 
                 # getting next puzzle
-                puzzle = Puzzle.objects.filter(level=request.user.participant.curr_level + 1, visible=True)
+                puzzle = Puzzle.objects.filter(level=request.user.participant.curr_level, visible=True)
                 if not puzzle:
                     to_frontend['msg'] = "You have completed all currently available levels. Please wait for more"
                     to_frontend['puzzle'] = None
@@ -173,7 +176,7 @@ def load_next_puzzle(request, pk):
                 # load meme
                 try:
                     to_frontend['meme'] = random.choice(
-                        Meme.objects.filter(meme_for=request.user.participant.acc_type - 1,
+                        Meme.objects.filter(meme_for=request.user.participant.acc_type,
                                             meme_type=1))
                 except IndexError:
                     to_frontend['meme'] = None
@@ -184,13 +187,13 @@ def load_next_puzzle(request, pk):
                 to_frontend['msg'] = "Wrong answer! Please try again"
 
                 number_of_unsuccessful_attempts = Submission.objects.filter(participant=request.user.participant,
-                                                                            level=request.user.participant.curr_level+1,
+                                                                            level=request.user.participant.curr_level,
                                                                             status=0).count()
                 if number_of_unsuccessful_attempts % settings.MEME_WRONG == 0:
                     # load meme
                     try:
                         to_frontend['meme'] = random.choice(
-                            Meme.objects.filter(meme_for=request.user.participant.acc_type - 1,
+                            Meme.objects.filter(meme_for=request.user.participant.acc_type,
                                                 meme_type=1))
                     except IndexError:
                         to_frontend['meme'] = None

@@ -1,18 +1,16 @@
 # Tasks to do next
 
 This is a list of tasks left to implement. This list will be updated on the go.
-* make alum, current stu alias uniform throughout the system
-* revise current level concept
+
+
 
 * **Contest arena**
     * hacker man 
         * bug empty range for randrange() (1, 1, 0) fix
     * add pop up messages for login, logout, and register 
         * pass from backend
-    * banned
-        * control url access
-    * puzzle
-        * verify answer in 
+    * form validation messages : frontend decorate
+    
 
 * **leaderboard** 
     * pageinator
@@ -35,3 +33,7 @@ This is a list of tasks left to implement. This list will be updated on the go.
     
 ## Updates in last version
 * meme modal added to frontend
+* banned url access control fixed
+* leaderboard: user position marked bold
+* alum, current stu alias made uniform throughout the system
+* current level concept revised: if user solves puzzle i, ze will level-up to level i+1

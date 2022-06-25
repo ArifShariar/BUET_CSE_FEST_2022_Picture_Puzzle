@@ -45,7 +45,7 @@ class Meme(models.Model):
     image = models.ImageField(upload_to=get_meme_image_upload_path)
     sound = models.FileField(upload_to=get_meme_sound_upload_path)
     text = models.TextField()
-    meme_for = models.IntegerField(default=-1, help_text="Alum = 0 & Student = 1")
+    meme_for = models.IntegerField(default=-1, help_text="Alum = 1 & Student = 2")
     meme_type = models.IntegerField(default=-1, help_text="Fail = 0 & Success = 1")
 
     def __str__(self):
@@ -96,7 +96,7 @@ class Puzzle(models.Model):
 
 class HackerManImage(models.Model):
     image = models.ImageField(upload_to=get_hackerman_image_upload_path)
-    image_for = models.IntegerField(default=-1, help_text="Alum = 0 & Student = 1")
+    image_for = models.IntegerField(default=-1, help_text="Alum = 1 & Student = 2")
 
     def get_image(self):
         if self.image and hasattr(self.image, 'url'):
