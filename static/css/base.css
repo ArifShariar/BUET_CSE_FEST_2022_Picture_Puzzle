@@ -24,3 +24,8 @@
 .shomobay {
   background-color: #c86e72;
 }
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}

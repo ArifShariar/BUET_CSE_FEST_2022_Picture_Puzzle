@@ -12,7 +12,7 @@
 
     <body class="text-center">
         <div>
-            <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgb(30, 0, 54);">
+            <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgb(30, 0, 54);">
                 <a class="navbar-brand" href="{% url 'home' %}">Picture Puzzle</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -38,7 +38,7 @@
             </nav>
         </div>
 
-        <div class="container">
+        <div class="container d-flex mt-5 w-100 h-100 p-3 mx-auto flex-column">
             <main role="main" class="py-lg-5">
                 {% if msg %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -51,7 +51,8 @@
 
                 {% if puzzle %}
                     <h2 class="mt-5">{{ puzzle.title }}</h2>
-                    <img class="mt-4 mw-75 mh-75" src="{{ puzzle.get_image }}" alt="puzzle.title">
+{#                    <img class="mt-4 mw-75 mh-75" src="{{ puzzle.get_image }}" alt="puzzle.title">#}
+                    <img class="mt-4" src="{{ puzzle.get_image }}" alt="puzzle.title" style="max-height: 500px; max-width: 500px;">
                     <form method="post">
                         {% csrf_token %}
                         <div class="container mt-5 mb-5 w-50">
@@ -67,28 +68,3 @@
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     </body>
 </html>
-
-
-
-
-
-
-
-
-
-{##}
-{##}
-{#{% extends 'base/base.html' %}#}
-{#{% block content %}#}
-{#        <h1>Message: {{ msg }}</h1>#}
-{#        {% if puzzle %}#}
-{#            <h2>{{ puzzle.title }}</h2>#}
-{#            <img class="" src="{{ puzzle.get_image }}" style="margin-top: 50px; max-width:100%;" alt="puzzle.title">#}
-{#            <h2>answer: {{ puzzle }}</h2>#}
-{#            <form method="post">#}
-{#                {% csrf_token %}#}
-{#                {{ form }}#}
-{#                <button type="submit">Submit</button>#}
-{#            </form>#}
-{#        {% endif %}#}
-{#{% endblock %}#}

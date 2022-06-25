@@ -22,6 +22,7 @@ This is a list of tasks left to implement. This list will be updated on the go.
      
 * clean .env file -> remove unnecessary variables
 * puzzle answer validation -> need to fix redirect messages
+* probably Footer-Dark.css file is not needed and can be deleted
     
 * **shomobay shomiti**
     * testing
