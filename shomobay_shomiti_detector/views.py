@@ -1,7 +1,6 @@
 import decimal
 import math
 
-from django.shortcuts import render
 from user.models import *
 from shomobay_shomiti_detector.models import *
 from django.conf import settings
@@ -41,8 +40,7 @@ def HMModel(participant):
 
         prev_weight1.weight = new_weight
         prev_weight2.weight = new_weight
-        # prev_weight1.save()
-        # prev_weight2.save()
+
         update_list_weights.append(prev_weight1)
         update_list_weights.append(prev_weight2)
 

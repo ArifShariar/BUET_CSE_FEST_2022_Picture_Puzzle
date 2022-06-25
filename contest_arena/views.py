@@ -92,15 +92,16 @@ def banned(request):
 
 @login_required(login_url='login')
 def load_next_puzzle(request, pk):
+    if request.user.participant.disabled:
+        return redirect('banned')
+
     if pk < request.user.participant.curr_level:
         return HttpResponse("You have already solved this puzzle!")
-    elif pk > request.user.participant.curr_level and settings.SHOW_HACK:
-        return redirect('hackerman')
-    elif pk > request.user.participant.curr_level and not settings.SHOW_HACK:
-        return HttpResponseNotFound("You can't solve this now!")
-
-    elif request.user.participant.disabled:
-        return redirect('banned')
+    elif pk > request.user.participant.curr_level:
+        if settings.SHOW_HACK:
+            return redirect('hackerman')
+        else:
+            return HttpResponseNotFound("You can't solve this now!")
 
     form = PuzzleAnsForm()
     to_frontend = {
@@ -108,11 +109,8 @@ def load_next_puzzle(request, pk):
         "user": request.user,
         "msg": "",
         "puzzle": None,
-        "form": form,
+        "form": None,
     }
-
-    print(settings.CONTEST_STARTED)
-    print(settings.CONTEST_ENDED)
 
     if settings.CONTEST_STARTED is False:
         to_frontend['msg'] = "Contest has not started yet"
@@ -121,7 +119,7 @@ def load_next_puzzle(request, pk):
     else:
         # getting next puzzle
         print('current level ', request.user.participant.curr_level)
-        puzzle = Puzzle.objects.filter(Q(level=request.user.participant.curr_level + 1) & Q(visible=True))
+        puzzle = Puzzle.objects.filter(level=request.user.participant.curr_level + 1, visible=True)
         print(puzzle)
         if not puzzle:
             to_frontend['msg'] = "You have completed all currently available levels. Please wait for more"
@@ -129,6 +127,7 @@ def load_next_puzzle(request, pk):
             to_frontend['puzzle'] = puzzle.first()
 
     if request.method == "POST":
+        print("in method post")
         # if the submitted answer is correct, then increase the level of participant
         # show success message
         # else show error message
