@@ -39,6 +39,38 @@
         </div>
 
         <div class="container d-flex mt-5 w-100 h-100 p-3 mx-auto flex-column">
+            {% if meme %}
+                <!-- Button trigger meme modal -->
+                <button id="memeBtn" type="button" class="btn" data-toggle="modal" data-target="#memeModal" hidden></button>
+                <button id="playAudio" onclick="play()" hidden></button>
+
+                <!-- Meme -->
+                <div class="modal fade" id="memeModal" tabindex="-1" role="dialog" aria-labelledby="memeModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                    {% if meme.meme_type == 1 %}
+                                        Correct answer, level up!
+                                    {% else %}
+                                        Don't be hotash!
+                                    {% endif %}
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <img class="pr-5 pl-3 pb-3" src="{{ meme.get_image }}" alt="{{ meme.text }}" style="max-height: 500px; max-width: 500px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+
+
+
             <main role="main" class="py-lg-5">
                 {% if msg %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -51,8 +83,7 @@
 
                 {% if puzzle %}
                     <h2 class="mt-5">{{ puzzle.title }}</h2>
-{#                    <img class="mt-4 mw-75 mh-75" src="{{ puzzle.get_image }}" alt="puzzle.title">#}
-                    <img class="mt-4" src="{{ puzzle.get_image }}" alt="puzzle.title" style="max-height: 500px; max-width: 500px;">
+                    <img class="mt-4" src="{{ puzzle.get_image }}" alt="{{puzzle.title}}" style="max-height: 500px; max-width: 500px;">
                     <form method="post">
                         {% csrf_token %}
                         <div class="container mt-5 mb-5 w-50">
@@ -66,5 +97,18 @@
         {% include 'base/footer.html' %}
         <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        {% if meme %}
+            <script>
+                window.onload = function(){
+                    document.getElementById('memeBtn').click();
+                    document.getElementById('playAudio').click();
+                };
+
+                function play() {
+                    var audio = new Audio('{{ meme.get_sound }}');
+                    audio.play();
+                }
+            </script>
+        {% endif %}
     </body>
 </html>

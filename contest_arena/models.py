@@ -51,6 +51,16 @@ class Meme(models.Model):
     def __str__(self):
         return self.text
 
+    def get_image(self):
+        if self.image and hasattr(self.image, 'url'):
+            return self.image.url
+        return None
+
+    def get_sound(self):
+        if self.sound and hasattr(self.sound, 'url'):
+            return self.sound.url
+        return None
+
     class META:
         verbose_name_plural = "Memes"
 

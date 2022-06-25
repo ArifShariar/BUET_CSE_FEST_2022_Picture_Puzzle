@@ -51,6 +51,8 @@ EMISSION00 = float(os.getenv('EMISSION00'))         # +time(t)|-cheat(t)
 EMISSION01 = float(os.getenv('EMISSION01'))         # -time(t)|-cheat(t)
 THRESHOLD = float(os.getenv('THRESHOLD'))
 
+MEME_WRONG = int(os.getenv('MEME_WRONG'))
+
 """-------------------------------------------------- env variables end -------------------------------------------"""
 ALLOWED_HOSTS = ['ppuzzle.herokuapp.com', '127.0.0.1']
 

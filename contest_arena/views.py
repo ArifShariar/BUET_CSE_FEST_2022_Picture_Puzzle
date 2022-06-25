@@ -92,7 +92,8 @@ def banned(request):
 
 @login_required(login_url='login')
 def load_next_puzzle(request, pk):
-    if request.user.participant.disabled:
+
+    if request.user.participant.disabled and settings.SHOMOBAY_SHOMITI:
         return redirect('banned')
 
     if pk < request.user.participant.curr_level:
@@ -110,7 +111,18 @@ def load_next_puzzle(request, pk):
         "msg": "",
         "puzzle": None,
         "form": form,
+        "meme": None,
     }
+    # #
+    # """------------------------------------------------temporary for testing start------------------------------------------"""
+    # try:
+    #     to_frontend['meme'] = random.choice(Meme.objects.filter(meme_for=request.user.participant.acc_type - 1,
+    #                                                             meme_type=1))
+    # except IndexError:
+    #     to_frontend['meme'] = None
+    # print(to_frontend['meme'])
+    #
+    # """------------------------------------------------temporary for testing end--------------------------------------------"""
 
     if settings.CONTEST_STARTED is False:
         to_frontend['msg'] = "Contest has not started yet"
@@ -118,16 +130,13 @@ def load_next_puzzle(request, pk):
         to_frontend['msg'] = "Contest has ended"
     else:
         # getting next puzzle
-        print('current level ', request.user.participant.curr_level)
         puzzle = Puzzle.objects.filter(level=request.user.participant.curr_level + 1, visible=True)
-        print(puzzle)
         if not puzzle:
             to_frontend['msg'] = "You have completed all currently available levels. Please wait for more"
         else:
             to_frontend['puzzle'] = puzzle.first()
 
     if request.method == "POST":
-        print("in method post")
         # if the submitted answer is correct, then increase the level of participant
         # show success message
         # else show error message
@@ -136,11 +145,11 @@ def load_next_puzzle(request, pk):
             ans = form.cleaned_data['ans']
             # add submission
             submit = Submission.objects.create(participant=request.user.participant,
-                                               level=request.user.participant.curr_level,
+                                               level=request.user.participant.curr_level + 1,
                                                time=datetime.datetime.now(datetime.timezone.utc),
                                                ans=ans)
 
-            if ans.lower() == to_frontend['puzzle'].ans.lower():
+            if ans.strip().lower() == to_frontend['puzzle'].ans.lower():
                 submit.status = 1
                 submit.save()
 
@@ -148,17 +157,44 @@ def load_next_puzzle(request, pk):
                 request.user.participant.curr_level += 1
                 request.user.participant.last_successful_submission_time = datetime.datetime.now(datetime.timezone.utc)
                 request.user.participant.save()
-                to_frontend['msg'] = "Correct answer! You have advanced to the next level"
 
                 # shomobay shomiti
                 if settings.SHOMOBAY_SHOMITI:
                     HMModel(request.user.participant)
 
-                return redirect('puzzle', pk=request.user.participant.curr_level)
+                # getting next puzzle
+                puzzle = Puzzle.objects.filter(level=request.user.participant.curr_level + 1, visible=True)
+                if not puzzle:
+                    to_frontend['msg'] = "You have completed all currently available levels. Please wait for more"
+                    to_frontend['puzzle'] = None
+                else:
+                    to_frontend['puzzle'] = puzzle.first()
+
+                # load meme
+                try:
+                    to_frontend['meme'] = random.choice(
+                        Meme.objects.filter(meme_for=request.user.participant.acc_type - 1,
+                                            meme_type=1))
+                except IndexError:
+                    to_frontend['meme'] = None
             else:
                 submit.status = 0
                 submit.save()
 
                 to_frontend['msg'] = "Wrong answer! Please try again"
+
+                number_of_unsuccessful_attempts = Submission.objects.filter(participant=request.user.participant,
+                                                                            level=request.user.participant.curr_level+1,
+                                                                            status=0).count()
+                if number_of_unsuccessful_attempts % settings.MEME_WRONG == 0:
+                    # load meme
+                    try:
+                        to_frontend['meme'] = random.choice(
+                            Meme.objects.filter(meme_for=request.user.participant.acc_type - 1,
+                                                meme_type=1))
+                    except IndexError:
+                        to_frontend['meme'] = None
+        else:
+            redirect('hackerman')
 
     return render(request, 'contest_arena/puzzle.html', to_frontend)
