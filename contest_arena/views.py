@@ -109,7 +109,7 @@ def load_next_puzzle(request, pk):
         "user": request.user,
         "msg": "",
         "puzzle": None,
-        "form": None,
+        "form": form,
     }
 
     if settings.CONTEST_STARTED is False:
