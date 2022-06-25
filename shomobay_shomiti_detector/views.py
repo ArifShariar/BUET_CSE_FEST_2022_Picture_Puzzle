@@ -61,7 +61,7 @@ def HMModel(participant):
     print()
 
 
-def EMMISSION1(time_diff):
+def EMISSION1(time_diff):
     """
         time_diff in seconds
     """
@@ -75,8 +75,8 @@ def EMMISSION1(time_diff):
     return p
 
 
-def EMMISSION0(time_diff):
-    return settings.EMMISSION00 if EMMISSION1(time_diff) > 0.5 else settings.EMMISSION01
+def EMISSION0(time_diff):
+    return settings.EMISSION00 if EMISSION1(time_diff) > 0.5 else settings.EMISSION01
 
 
 def updateProbabilityForOneTimeStep(B):
@@ -90,7 +90,7 @@ def updateProbabilityForOneTimeStep(B):
 
 
 def reweighProbabilityBasedOnEvidence(B, evd):
-    new_B = B * decimal.Decimal(EMMISSION1(evd))
-    new_B_ = (1 - B) * decimal.Decimal(EMMISSION0(evd))
+    new_B = B * decimal.Decimal(EMISSION1(evd))
+    new_B_ = (1 - B) * decimal.Decimal(EMISSION0(evd))
 
     return new_B / (new_B + new_B_)

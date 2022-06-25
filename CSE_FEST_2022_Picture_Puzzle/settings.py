@@ -47,8 +47,8 @@ TRANSITION00 = float(os.getenv('TRANSITION00'))     # -cheat(t+1)|-cheat(t)
 TRANSITION01 = float(os.getenv('TRANSITION01'))     # -cheat(t+1)|+cheat(t)
 TRANSITION10 = float(os.getenv('TRANSITION10'))     # +cheat(t+1)|-cheat(t)
 TRANSITION11 = float(os.getenv('TRANSITION11'))     # +cheat(t+1)|+cheat(t)
-EMMISSION00 = float(os.getenv('EMMISSION00'))     # +time(t)|-cheat(t)
-EMMISSION01 = float(os.getenv('EMMISSION01'))      # -time(t)|-cheat(t)
+EMISSION00 = float(os.getenv('EMISSION00'))         # +time(t)|-cheat(t)
+EMISSION01 = float(os.getenv('EMISSION01'))         # -time(t)|-cheat(t)
 THRESHOLD = float(os.getenv('THRESHOLD'))
 
 """-------------------------------------------------- env variables end -------------------------------------------"""
