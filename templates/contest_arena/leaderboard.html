@@ -70,17 +70,34 @@
             </main>
 
             <!-------------------------------------------------- pageinator  -------------------------------------------->
-            <div class="container">
-                <div class="justify-content-center btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group mr-2 rounded" role="group" aria-label="First group">
-                        <a href="#" type="button" class="btn mybutton"><</a>
-                        <a href="#" type="button" class="btn mybutton disabled">1</a>
-                        <a href="#" type="button" class="btn mybutton">2</a>
-                        <a href="#" type="button" class="btn mybutton">3</a>
-                        <a href="#" type="button" class="btn mybutton">></a>
+
+            {% if rank_list.has_other_pages %}
+                <div class="container">
+                    <div class="justify-content-center btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group mr-2 rounded" role="group" aria-label="First group">
+                            {% if rank_list.has_previous %}
+                                <a href="?page={{ rank_list.previous_page_number }}" type="button" class="btn mybutton">&laquo;</a>
+                            {% else %}
+                                <a type="button" class="btn mybutton disabled">&laquo;</a>
+                            {% endif %}
+
+                            {% for i in rank_list.paginator.page_range %}
+                                {% if rank_list.number == i %}
+                                    <a type="button" class="btn mybutton disabled">{{ i }}<span> <span class="sr-only">(current)</span></span></a>
+                                {% else %}
+                                    <a href="?page={{ i }}" type="button" class="btn mybutton">{{ i }}</a>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if rank_list.has_next %}
+                                <a href="?page={{ rank_list.next_page_number }}" type="button" class="btn mybutton">&raquo;</a>
+                            {% else %}
+                                <a type="button" class="btn mybutton disabled"><span>&raquo;</span></a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
         {% include 'base/footer.html' %}
         <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

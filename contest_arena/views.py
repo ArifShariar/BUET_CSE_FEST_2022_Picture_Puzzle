@@ -3,6 +3,7 @@ import random
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
@@ -32,10 +33,17 @@ def view_leaderboard_page(request):
     participants = User.objects.filter(is_staff=False,
                                        participant__last_successful_submission_time__isnull=False).order_by(
         '-participant__curr_level', 'participant__last_successful_submission_time')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(participants, settings.LEADERBOARD_PAGE)
 
-    rank_list = []
-    for p in participants:
-        rank_list.append(p)
+    try:
+        rank_list = paginator.page(page)
+    except PageNotAnInteger:
+        rank_list = paginator.page(1)
+    except EmptyPage:
+        rank_list = paginator.page(paginator.num_pages)
+
+    for p in rank_list:
         print(p.participant.curr_level, p.username, p.participant.student_ID)
 
     to_frontend = {
@@ -46,8 +54,6 @@ def view_leaderboard_page(request):
         "SHOMOBAY_SHOMITI": settings.SHOMOBAY_SHOMITI,
         "THRESHOLD": settings.THRESHOLD,
     }
-
-    print(to_frontend['THRESHOLD'])
 
     return render(request, 'contest_arena/leaderboard.html', to_frontend)
 
@@ -95,7 +101,6 @@ def banned(request):
 
 @login_required(login_url='login')
 def load_next_puzzle(request, pk):
-
     if request.user.participant.disabled and settings.SHOMOBAY_SHOMITI:
         return redirect('banned')
 

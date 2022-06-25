@@ -2,26 +2,16 @@
 
 This is a list of tasks left to implement. This list will be updated on the go.
 
-
+* if password recovery is not allowed ... email field is not required -> decide what to do
 
 * **Contest arena**
-    * hacker man 
-        * bug empty range for randrange() (1, 1, 0) fix
     * add pop up messages for login, logout, and register 
+        * welcome 
+        * goodbye
         * pass from backend
-    * form validation messages : frontend decorate
-    
 
-* **leaderboard** 
-    * pageinator
-
-
-* login 
-    * frontend -> do smth about the message line no. 50
-    * manage disabled profiles 
-     
 * clean .env file -> remove unnecessary variables
-* puzzle answer validation -> need to fix redirect messages
+* clean unnecessary files
 * probably Footer-Dark.css file is not needed and can be deleted
     
 * **shomobay shomiti**
@@ -32,8 +22,5 @@ This is a list of tasks left to implement. This list will be updated on the go.
     * leader board
     
 ## Updates in last version
-* meme modal added to frontend
-* banned url access control fixed
-* leaderboard: user position marked bold
-* alum, current stu alias made uniform throughout the system
-* current level concept revised: if user solves puzzle i, ze will level-up to level i+1
+* form validation messages
+* leaderboard pagination

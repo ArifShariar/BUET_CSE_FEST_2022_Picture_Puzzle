@@ -36,7 +36,15 @@
                     <form class="form-signin" action='login' method="post">
                         {% csrf_token %}
                         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-
+                        <div>
+                        {% if messages %}
+                            <div class="p-1 text-danger">
+                                {% for message in messages %}
+                                <p>{{ message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        </div>
                         <label for="username" class="sr-only">Username</label>
                         <input class="form-control validate" type="text" id="username" name="username" placeholder="username" required autofocus>
 
@@ -45,15 +53,6 @@
 
                         <button class="btn btn-lg mybutton btn-block mt-5" type="submit">Sign in</button>
                     </form>
-                </div>
-                <div>
-                {% if messages %}
-                    <div class="alert-danger">
-                        {% for message in messages %}
-                        <li>{{ message }}</li>
-                        {% endfor %}
-                    </div>
-                {% endif %}
                 </div>
             </main>
 
