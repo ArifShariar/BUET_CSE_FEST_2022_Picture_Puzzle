@@ -99,15 +99,18 @@
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
         {% if meme %}
             <script>
+                var audio = new Audio('{{ meme.get_sound }}');
                 window.onload = function(){
                     document.getElementById('memeBtn').click();
                     document.getElementById('playAudio').click();
                 };
 
                 function play() {
-                    var audio = new Audio('{{ meme.get_sound }}');
                     audio.play();
                 }
+                $('#memeModal').on('hidden.bs.modal', function () {
+                    audio.pause();
+                })
             </script>
         {% endif %}
     </body>

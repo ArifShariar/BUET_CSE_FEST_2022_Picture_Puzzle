@@ -28,9 +28,9 @@ def HMModel(participant):
         except DetectorGraph.DoesNotExist:
             # starting value of weight
             prev_weight1 = DetectorGraph.objects.create(participant1=participant, participant2=sub.participant,
-                                                        weight=0)
+                                                        weight=0.5)
             prev_weight2 = DetectorGraph.objects.create(participant1=sub.participant, participant2=participant,
-                                                        weight=0)
+                                                        weight=0.5)
 
         print("prev_weight ", prev_weight1.weight, prev_weight2.weight)
 

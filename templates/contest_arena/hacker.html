@@ -17,31 +17,12 @@
                 <h1>Why you heck me :(</h1>
                 <h2 class="mt-5">{{ random_quote }}</h2>
                 {% if random_image %}
-                    <img class="mt-4 w-75" src="{{ random_image.get_image }}" alt="meme">
+                    <img class="mt-4" src="{{ random_image.get_image }}" alt="meme" style="max-height: 500px; max-width: 500px;">
                 {% else %}
-{#                dummy image#}
-                    <img class="mt-4 w-75" src="{% static 'images/7ee35c124398243.Y3JvcCwzNDA5LDI2NjcsMjk1LDA.png' %}" alt="meme">
+{#                    <img class="mt-4 w-75" src="{% static 'images/7ee35c124398243.Y3JvcCwzNDA5LDI2NjcsMjk1LDA.png' %}" alt="meme">#}
                 {% endif %}
             </main>
         </div>
         {% include 'base/footer.html' %}
     </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-{#{% extends 'base/base.html' %}#}
-{#{% block content %}#}
-{#    <h1>Why you heck me :( </h1>#}
-{#    <br>#}
-{#    <h1>{{ random_quote }}</h1>#}
-{#    <img src="{{ random_image.get_image }}" alt="Meme not loading">#}
-{#{% endblock %}#}
-{##}

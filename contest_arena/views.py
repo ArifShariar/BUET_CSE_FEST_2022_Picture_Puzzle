@@ -121,16 +121,6 @@ def load_next_puzzle(request, pk):
         "form": form,
         "meme": None,
     }
-    # #
-    # """------------------------------------------------temporary for testing start------------------------------------------"""
-    # try:
-    #     to_frontend['meme'] = random.choice(Meme.objects.filter(meme_for=request.user.participant.acc_type - 1,
-    #                                                             meme_type=1))
-    # except IndexError:
-    #     to_frontend['meme'] = None
-    # print(to_frontend['meme'])
-    #
-    # """------------------------------------------------temporary for testing end--------------------------------------------"""
 
     if settings.CONTEST_STARTED is False:
         to_frontend['msg'] = "Contest has not started yet"
@@ -178,23 +168,7 @@ def load_next_puzzle(request, pk):
                 else:
                     to_frontend['puzzle'] = puzzle.first()
 
-                # load meme
-                try:
-                    to_frontend['meme'] = random.choice(
-                        Meme.objects.filter(meme_for=request.user.participant.acc_type,
-                                            meme_type=1))
-                except IndexError:
-                    to_frontend['meme'] = None
-            else:
-                submit.status = 0
-                submit.save()
-
-                to_frontend['msg'] = "Wrong answer! Please try again"
-
-                number_of_unsuccessful_attempts = Submission.objects.filter(participant=request.user.participant,
-                                                                            level=request.user.participant.curr_level,
-                                                                            status=0).count()
-                if number_of_unsuccessful_attempts % settings.MEME_WRONG == 0:
+                if settings.SHOW_MEME:
                     # load meme
                     try:
                         to_frontend['meme'] = random.choice(
@@ -202,6 +176,27 @@ def load_next_puzzle(request, pk):
                                                 meme_type=1))
                     except IndexError:
                         to_frontend['meme'] = None
+            else:
+                submit.status = 0
+                submit.save()
+
+                to_frontend['msg'] = "Wrong answer! Please try again"
+
+                if settings.SHOW_MEME:
+                    number_of_unsuccessful_attempts = Submission.objects.filter(participant=request.user.participant,
+                                                                                level=request.user.participant.curr_level,
+                                                                                status=0).count()
+
+                    print(number_of_unsuccessful_attempts)
+                    if number_of_unsuccessful_attempts % settings.MEME_WRONG == 0:
+                        # load meme
+                        try:
+                            to_frontend['meme'] = random.choice(
+                                Meme.objects.filter(meme_for=request.user.participant.acc_type,
+                                                    meme_type=1))
+                        except IndexError:
+                            to_frontend['meme'] = None
+                        print(to_frontend['meme'])
         else:
             redirect('hackerman')
 

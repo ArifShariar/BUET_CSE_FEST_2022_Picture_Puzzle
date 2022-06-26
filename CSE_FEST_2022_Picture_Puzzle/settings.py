@@ -35,22 +35,26 @@ DEBUG = (os.getenv('DEBUG') == 'True')
 LEADERBOARD_PAGE = int(os.getenv('LEADERBOARD_PAGE'))
 CONTEST_STARTED = (os.getenv('CONTEST_STARTED') == 'True')
 CONTEST_ENDED = (os.getenv('CONTEST_ENDED') == 'True')
-SHOW_HACK = (os.getenv('SHOW_HACK') == 'True')
+
 
 SHOMOBAY_SHOMITI = (os.getenv('SHOMOBAY_SHOMITI') == 'True')
 MEAN = float(os.getenv('MEAN'))
 DEVIATION = float(os.getenv('DEVIATION'))
 SPREAD = float(os.getenv('SPREAD'))
 SCALE = float(os.getenv('SCALE'))
+THRESHOLD = float(os.getenv('THRESHOLD'))
+
 TRANSITION00 = float(os.getenv('TRANSITION00'))     # -cheat(t+1)|-cheat(t)
 TRANSITION01 = float(os.getenv('TRANSITION01'))     # -cheat(t+1)|+cheat(t)
 TRANSITION10 = float(os.getenv('TRANSITION10'))     # +cheat(t+1)|-cheat(t)
 TRANSITION11 = float(os.getenv('TRANSITION11'))     # +cheat(t+1)|+cheat(t)
+
 EMISSION00 = float(os.getenv('EMISSION00'))         # +time(t)|-cheat(t)
 EMISSION01 = float(os.getenv('EMISSION01'))         # -time(t)|-cheat(t)
-THRESHOLD = float(os.getenv('THRESHOLD'))
 
 MEME_WRONG = int(os.getenv('MEME_WRONG'))
+SHOW_HACK = (os.getenv('SHOW_HACK') == 'True')
+SHOW_MEME = (os.getenv('SHOW_MEME') == 'True')
 
 """-------------------------------------------------- env variables end -------------------------------------------"""
 ALLOWED_HOSTS = ['ppuzzle.herokuapp.com', '127.0.0.1']
