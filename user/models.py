@@ -9,7 +9,7 @@ class Participant(models.Model):
     batch = models.IntegerField(default=0)
     curr_level = models.IntegerField(default=1)
     last_successful_submission_time = models.DateTimeField(null=True)
-    max_weight = models.DecimalField(default=0, decimal_places=12, max_digits=30)
+    max_weight = models.FloatField(default=0.5)
     # this field will be used by the admin to temporarily activate or deactivate a participant
     disabled = models.BooleanField(default=False)
 

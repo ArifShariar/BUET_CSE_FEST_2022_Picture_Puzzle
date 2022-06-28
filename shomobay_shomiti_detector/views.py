@@ -1,4 +1,3 @@
-import decimal
 import math
 
 from user.models import *
@@ -86,11 +85,11 @@ def updateProbabilityForOneTimeStep(B):
     TRANSITION10 = 0.2     # +cheat(t+1)|-cheat(t)
     TRANSITION11 = 0.9     # +cheat(t+1)|+cheat(t)
     """
-    return B * decimal.Decimal(settings.TRANSITION11) + (1 - B) * decimal.Decimal(settings.TRANSITION10)
+    return B * settings.TRANSITION11 + (1 - B) * settings.TRANSITION10
 
 
 def reweighProbabilityBasedOnEvidence(B, evd):
-    new_B = B * decimal.Decimal(EMISSION1(evd))
-    new_B_ = (1 - B) * decimal.Decimal(EMISSION0(evd))
+    new_B = B * EMISSION1(evd)
+    new_B_ = (1 - B) * EMISSION0(evd)
 
     return new_B / (new_B + new_B_)

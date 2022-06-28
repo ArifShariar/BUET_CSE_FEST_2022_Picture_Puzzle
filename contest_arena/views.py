@@ -175,7 +175,7 @@ def load_next_puzzle(request, pk):
                     # load meme
                     try:
                         to_frontend['meme'] = random.choice(
-                            Meme.objects.filter(meme_for=request.user.participant.acc_type,
+                            Meme.objects.filter(Q(meme_for=request.user.participant.acc_type) | Q(meme_for=0),
                                                 meme_type=1))
                     except IndexError:
                         to_frontend['meme'] = None
@@ -195,7 +195,7 @@ def load_next_puzzle(request, pk):
                         # load meme
                         try:
                             to_frontend['meme'] = random.choice(
-                                Meme.objects.filter(meme_for=request.user.participant.acc_type,
+                                Meme.objects.filter(Q(meme_for=request.user.participant.acc_type) | Q(meme_for=0),
                                                     meme_type=1))
                         except IndexError:
                             to_frontend['meme'] = None

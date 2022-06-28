@@ -16,4 +16,4 @@ class Submission(models.Model):
 class DetectorGraph(models.Model):
     participant1 = models.ForeignKey(Participant, on_delete=models.CASCADE, related_name='participant1')
     participant2 = models.ForeignKey(Participant, on_delete=models.CASCADE, related_name='participant2')
-    weight = models.DecimalField(default=0, decimal_places=12, max_digits=30)
+    weight = models.FloatField(default=0.5)
