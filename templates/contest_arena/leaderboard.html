@@ -44,21 +44,16 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Rank</th>
+                        <th scope="col">Level</th>
                         <th scope="col">Username</th>
                         <th scope="col">Batch</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for p in rank_list %}
-                            <tr class="
-                            {% if p.username == user.username %}
-                                font-weight-bold
-                            {% endif %}
-                            {% if SHOMOBAY_SHOMITI  and p.participant.max_weight > THRESHOLD %}
-                                shomobay
-                            {% endif %}
-                            ">
+                            <tr {% if p.username == user.username %}class="font-weight-bold"{% endif %}
+{#                                {% if SHOMOBAY_SHOMITI and p.participant.max_weight >= THRESHOLD %}style="background-color: #c86e72;"{% endif %}>#}
+                                {% if SHOMOBAY_SHOMITI %}style="background-color: rgba(255, 0, 0, {{p.participant.max_weight}});"{% endif %}>
                                 <th scope="row">{{ p.participant.curr_level }}</th>
                                 <td>{{ p.username }}</td>
                                 <td>{{ p.participant.batch }}</td>

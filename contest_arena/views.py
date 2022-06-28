@@ -44,7 +44,7 @@ def view_leaderboard_page(request):
         rank_list = paginator.page(paginator.num_pages)
 
     for p in rank_list:
-        print(p.participant.curr_level, p.username, p.participant.student_ID)
+        p.participant.max_weight = max(0, p.participant.max_weight - 0.5)*2
 
     to_frontend = {
         "user_active": request.user.is_authenticated,
