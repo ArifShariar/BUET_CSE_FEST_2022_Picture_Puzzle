@@ -92,6 +92,7 @@ def banned(request):
 
     to_frontend = {
         "user_active": request.user.is_authenticated,
+        "user_level": request.user.participant.curr_level,
         "user": request.user,
         "puzzle": None,
         "msg": "You are banned from the contest. Please contact the contest administrator for more information."
@@ -104,7 +105,9 @@ def load_next_puzzle(request, pk):
     if request.user.participant.disabled and settings.SHOMOBAY_SHOMITI:
         return redirect('banned')
 
-    if pk < request.user.participant.curr_level:
+    if pk == 0:
+        return HttpResponse("Why are you here?? 🙄🙄")
+    elif pk < request.user.participant.curr_level:
         return HttpResponse("You have already solved this puzzle!")
     elif pk > request.user.participant.curr_level:
         if settings.SHOW_HACK:

@@ -104,36 +104,3 @@
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     </body>
 </html>
-
-
-
-
-
-
-
-
-
-{##}
-{##}
-{##}
-{#{% extends 'base/base.html' %}#}
-{#{% block content %}#}
-{#    <table class="table table-dark">#}
-{#        <thead>#}
-{#        <tr>#}
-{#            <th scope="col">Rank</th>#}
-{#            <th scope="col">Username</th>#}
-{#            <th scope="col">Std. ID</th>#}
-{#        </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for p in rank_list %}#}
-{#        <tr>#}
-{#            <th scope="row">{{ p.participant.position }}</th>#}
-{#            <td>{{ p.username }}</td>#}
-{#            <td>{{ p.participant.student_ID }}</td>#}
-{#        </tr>#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
-{#{% endblock %}#}

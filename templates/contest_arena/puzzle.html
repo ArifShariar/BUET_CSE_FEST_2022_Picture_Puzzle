@@ -11,6 +11,8 @@
     </head>
 
     <body class="text-center">
+
+{#    ----------------------------------------------- NAVBAR START ------------------------------------------------#}
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgb(30, 0, 54);">
                 <a class="navbar-brand" href="{% url 'home' %}">Picture Puzzle</a>
@@ -37,6 +39,7 @@
                 </div>
             </nav>
         </div>
+{#    ----------------------------------------------- NAVBAR END ------------------------------------------------#}
 
         <div class="container d-flex mt-5 w-100 h-100 p-3 mx-auto flex-column">
             {% if meme %}

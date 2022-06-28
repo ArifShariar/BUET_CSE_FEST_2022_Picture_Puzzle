@@ -12,26 +12,28 @@
         <link href="{% static 'css/home.css' %}" rel="stylesheet">
 
     </head>
+    <body class="text-center">
 
-    <body class="text-center background-image">
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-            <header class="masthead mb-auto">
-                <div class="inner">
-                    <a class="masthead-brand h3 nav-link" href="{% url 'home' %}">Picture Puzzle</a>
-                    <nav class="nav nav-masthead justify-content-center">
-                        {% if user_active %}
-                            <a class="nav-link" href="{% url 'leaderboard' %}">Leaderboard</a>
-                            <a class="nav-link" href="{% url 'puzzle' user_level %}">Play</a>
-                            <a class="nav-link" href="{% url 'logout' %}">Log out</a>
-                        {% else %}
-                            <a class="nav-link" href="{% url 'login' %}">Log in</a>
-                            <a class="nav-link" href="{% url 'register' %}">Register</a>
-                        {% endif %}
-                    </nav>
+    {#    ----------------------------------------------- NAVBAR START ------------------------------------------------#}
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgb(30, 0, 54);">
+                <a class="navbar-brand" href="{% url 'home' %}">Picture Puzzle</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'register' %}">Register</a>
+                            </li>
+                    </ul>
                 </div>
-            </header>
+            </nav>
+        </div>
+{#    ----------------------------------------------- NAVBAR END ------------------------------------------------#}
+        <div class="container d-flex mt-5 w-100 h-75 p-3 mx-auto flex-column">
 
-            <main role="main">
+            <main role="main" class="py-lg-5">
                 <div class="container w-50">
                     <form class="form-signin" action='login' method="post">
                         {% csrf_token %}
@@ -53,44 +55,13 @@
 
                         <button class="btn btn-lg mybutton btn-block mt-5" type="submit">Sign in</button>
                     </form>
+                    <div class="text-sm-center mt-3">Forgotten password? Contact us at <a href = "mailto: buetcsefest2022@gmail.com">buetcsefest2022@gmail.com</a></div>
                 </div>
             </main>
 
-            {% include 'base/footer.html' %}
         </div>
+        {% include 'base/footer.html' %}
+        <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     </body>
 </html>
-
-
-
-
-
-{#{% extends 'base/base.html' %}#}
-{#{% load static %}#}
-{#{% block content %}#}
-{#    <div class="text-center container w-25 bg-light px-5 mt-lg-5">#}
-{#        <form class="form-signin" action='login' method="post">#}
-{#            {% csrf_token %}#}
-{#            <img class="mb-4 mt-lg-5" src="{% static 'images/logo.jpg' %}" alt="" width="72" height="72">#}
-{#            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>#}
-{##}
-{#            <label for="username" class="sr-only">Username</label>#}
-{#            <input class="form-control validate" type="text" id="username" name="username" required autofocus>#}
-{##}
-{#            <label for="password" class="sr-only">Password</label>#}
-{#            <input class="form-control" type="password" id="password" name="password" placeholder="Password" required>#}
-{##}
-{#            <button class="btn btn-lg btn-primary btn-block mt-lg-5" type="submit">Sign in</button>#}
-{#            <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>#}
-{#        </form>#}
-{#    </div>#}
-{#    <div>#}
-{#        {% if messages %}#}
-{#            <div class="alert-danger">#}
-{#                {% for message in messages %}#}
-{#                    <li>{{ message }}</li>#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#        {% endif %}#}
-{#    </div>#}
-{#{% endblock %}#}
