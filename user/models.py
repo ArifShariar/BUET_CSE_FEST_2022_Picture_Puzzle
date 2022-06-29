@@ -8,7 +8,7 @@ class Participant(models.Model):
     student_ID = models.CharField(max_length=7, unique=True)
     batch = models.IntegerField(default=0)
     curr_level = models.IntegerField(default=1)
-    last_successful_submission_time = models.DateTimeField(null=True)
+    last_successful_submission_time = models.DateTimeField(default=None, blank=True, null=True)
     max_weight = models.FloatField(default=0.5)
     # this field will be used by the admin to temporarily activate or deactivate a participant
     disabled = models.BooleanField(default=False)

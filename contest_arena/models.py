@@ -43,8 +43,8 @@ def get_hackerman_image_upload_path(instance, name):
 
 class Meme(models.Model):
     image = models.ImageField(upload_to=get_meme_image_upload_path)
-    sound = models.FileField(upload_to=get_meme_sound_upload_path)
-    text = models.TextField()
+    sound = models.FileField(upload_to=get_meme_sound_upload_path, default=None, blank=True, null=True)
+    text = models.TextField(default=None, blank=True, null=True)
     meme_for = models.IntegerField(default=0, help_text="All = 0, Alum = 1, Student = 2")
     meme_type = models.IntegerField(default=-1, help_text="Fail = 0 & Success = 1")
 
