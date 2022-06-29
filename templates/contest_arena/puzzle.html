@@ -85,7 +85,7 @@
                 {% endif %}
 
                 {% if puzzle %}
-                    <h2 class="mt-5">{{ puzzle.title }}</h2>
+                    {% if puzzle.title %}<h2 class="mt-5">{{ puzzle.title }}</h2>{% endif %}
                     <img class="mt-4" src="{{ puzzle.get_image }}" alt="{{puzzle.title}}" style="max-height: 500px; max-width: 500px;">
                     <form method="post">
                         {% csrf_token %}
