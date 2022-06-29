@@ -65,8 +65,7 @@ def hack(request):
         "user": request.user,
     }
 
-    if HackerManImage.objects.count() == 0:
-        # temporary fix
+    if HackerManImage.objects.count() == 0 or AlumniHackermanQuote.objects.count() == 0 or CurrentStudentHackerQuote.objects.count() == 0:
         return render(request, 'contest_arena/hacker.html', to_frontend)
 
     # if the user is alumni
