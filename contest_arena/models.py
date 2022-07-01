@@ -47,6 +47,7 @@ class Meme(models.Model):
     text = models.TextField(default=None, blank=True, null=True)
     meme_for = models.IntegerField(default=0, help_text="All = 0, Alum = 1, Student = 2")
     meme_type = models.IntegerField(default=-1, help_text="Fail = 0 & Success = 1")
+    test_link = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return self.text
@@ -96,6 +97,7 @@ class Puzzle(models.Model):
 
 class HackerManImage(models.Model):
     image = models.ImageField(upload_to=get_hackerman_image_upload_path)
+    test_link = models.URLField(null=True, blank=True)
     image_for = models.IntegerField(default=0, help_text="All = 0, Alum = 1, Student = 2")
 
     def get_image(self):

@@ -4,15 +4,15 @@ from .models import *
 
 # Register your models here.
 class MemeAdmin(admin.ModelAdmin):
-    list_display = ('text', 'meme_for', 'meme_type')
+    list_display = ('text', 'meme_for', 'meme_type', 'test_link')
 
 
 class PuzzleAdmin(admin.ModelAdmin):
-    list_display = ('level', 'title', 'ans', 'visible', 'info', 'image')
+    list_display = ('level', 'title', 'ans', 'visible', 'info', 'image', 'info_link')
 
 
 class HackerManImageAdmin(admin.ModelAdmin):
-    list_display = ('image_for', 'image')
+    list_display = ('image_for', 'image', 'test_link')
 
 
 class AlumniHackermanQuoteAdmin(admin.ModelAdmin):
