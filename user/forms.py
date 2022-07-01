@@ -58,6 +58,9 @@ class ParticipantForm(forms.ModelForm):
         if roll > 125:
             raise forms.ValidationError("this is not a valid id")
 
+        if roll < 1:
+            raise forms.ValidationError("this is not a valid id")
+
         if acc_type == 1 and batch not in range(1, 17):   # need to include 90's batches
             raise forms.ValidationError("this is not a valid id")
 
