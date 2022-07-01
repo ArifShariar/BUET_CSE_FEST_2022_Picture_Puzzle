@@ -16,7 +16,8 @@ def HMModel(participant):
     print()
     update_list_weights = []
     update_list_max_weights = []
-    participant.max_weight = 0
+    if not subs:
+        participant.max_weight = 0
     for sub in subs:
         if sub.participant.user == participant.user:
             continue
