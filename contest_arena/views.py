@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from user.models import *
 from shomobay_shomiti_detector.models import *
@@ -44,7 +45,7 @@ def view_leaderboard_page(request):
         rank_list = paginator.page(paginator.num_pages)
 
     for p in rank_list:
-        p.participant.max_weight = max(0, p.participant.max_weight - 0.5)*2
+        p.participant.max_weight = max(0, p.participant.max_weight - 0.5) * 2
 
     to_frontend = {
         "user_active": request.user.is_authenticated,
@@ -100,9 +101,13 @@ def banned(request):
 
 
 @login_required(login_url='login')
-def load_next_puzzle(request, pk):
+def load_next_puzzle(request, pk, var):
+
     if request.user.participant.disabled and settings.SHOMOBAY_SHOMITI:
         return redirect('banned')
+
+    if var not in [0, 1, 2]:
+        return redirect('hackerman')
 
     if pk == 0:
         return HttpResponse("Why are you here?? 🙄🙄")
@@ -136,7 +141,43 @@ def load_next_puzzle(request, pk):
         else:
             to_frontend['puzzle'] = puzzle.first()
 
-    if request.method == "POST":
+    if request.method == "GET":
+        """
+            0 => normal get puzzle
+            1 => wrong answer
+            2 => correct answer
+        """
+        if var == 0:
+            # return render(request, 'contest_arena/puzzle.html', to_frontend)
+            pass
+        elif var == 1:
+            to_frontend['msg'] = "Wrong answer! Please try again"
+
+            if settings.SHOW_MEME:
+                number_of_unsuccessful_attempts = Submission.objects.filter(participant=request.user.participant,
+                                                                            level=request.user.participant.curr_level,
+                                                                            status=0).count()
+
+                if number_of_unsuccessful_attempts % settings.MEME_WRONG == 0:
+                    # load meme
+                    try:
+                        to_frontend['meme'] = random.choice(
+                            Meme.objects.filter(Q(meme_for=request.user.participant.acc_type) | Q(meme_for=0),
+                                                meme_type=0))
+                    except IndexError:
+                        to_frontend['meme'] = None
+        elif var == 2:
+            if settings.SHOW_MEME:
+                # load meme
+                try:
+                    to_frontend['meme'] = random.choice(
+                        Meme.objects.filter(Q(meme_for=request.user.participant.acc_type) | Q(meme_for=0),
+                                            meme_type=1))
+                except IndexError:
+                    to_frontend['meme'] = None
+        else:
+            redirect("hackerman")
+    elif request.method == "POST":
         # if the submitted answer is correct, then increase the level of participant
         # show success message
         # else show error message
@@ -162,44 +203,23 @@ def load_next_puzzle(request, pk):
                 if settings.SHOMOBAY_SHOMITI:
                     HMModel(request.user.participant)
 
-                # getting next puzzle
-                puzzle = Puzzle.objects.filter(level=request.user.participant.curr_level, visible=True)
-                if not puzzle:
-                    to_frontend['msg'] = "You have completed all currently available levels. Please wait for more"
-                    to_frontend['puzzle'] = None
-                else:
-                    to_frontend['puzzle'] = puzzle.first()
-
-                if settings.SHOW_MEME:
-                    # load meme
-                    try:
-                        to_frontend['meme'] = random.choice(
-                            Meme.objects.filter(Q(meme_for=request.user.participant.acc_type) | Q(meme_for=0),
-                                                meme_type=1))
-                    except IndexError:
-                        to_frontend['meme'] = None
+                return redirect(
+                    reverse(
+                        'puzzle',
+                        kwargs={'pk': request.user.participant.curr_level, 'var': 2}
+                    )
+                )
             else:
                 submit.status = 0
                 submit.save()
 
-                to_frontend['msg'] = "Wrong answer! Please try again"
-
-                if settings.SHOW_MEME:
-                    number_of_unsuccessful_attempts = Submission.objects.filter(participant=request.user.participant,
-                                                                                level=request.user.participant.curr_level,
-                                                                                status=0).count()
-
-                    print(number_of_unsuccessful_attempts)
-                    if number_of_unsuccessful_attempts % settings.MEME_WRONG == 0:
-                        # load meme
-                        try:
-                            to_frontend['meme'] = random.choice(
-                                Meme.objects.filter(Q(meme_for=request.user.participant.acc_type) | Q(meme_for=0),
-                                                    meme_type=0))
-                        except IndexError:
-                            to_frontend['meme'] = None
-                        print(to_frontend['meme'])
+                return redirect(
+                    reverse(
+                        'puzzle',
+                        kwargs={'pk': request.user.participant.curr_level, 'var': 1}
+                    )
+                )
         else:
-            redirect('hackerman')
+            return redirect('hackerman')
 
     return render(request, 'contest_arena/puzzle.html', to_frontend)
