@@ -55,6 +55,7 @@ EMISSION01 = float(os.getenv('EMISSION01'))         # -time(t)|-cheat(t)
 MEME_WRONG = int(os.getenv('MEME_WRONG'))
 SHOW_HACK = (os.getenv('SHOW_HACK') == 'True')
 SHOW_MEME = (os.getenv('SHOW_MEME') == 'True')
+SHOW_SHOMITI = (os.getenv('SHOW_SHOMITI') == 'True')
 
 """-------------------------------------------------- env variables end -------------------------------------------"""
 ALLOWED_HOSTS = ['ppuzzle.herokuapp.com', '127.0.0.1']

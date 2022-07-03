@@ -11,62 +11,35 @@
     </head>
 
     <body class="text-center">
-
-    {#    ----------------------------------------------- NAVBAR START ------------------------------------------------#}
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgb(30, 0, 54);">
                 <a class="navbar-brand" href="{% url 'home' %}">Picture Puzzle</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
                             <a class="nav-link disabled">Leaderboard<span class="sr-only">(current)</span></a>
                         </li>
-                        {% if user_active %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'puzzle' user_level %}">Play</a>
-                            </li>
-                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'puzzle' user_level %}">Play</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
-                        {% if user_active %}
-                            <li class="nav-item active">
-                                <a class="nav-link disabled px-3">Welcome, {{ user.username }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'logout' %}">Log out</a>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'login' %}">Log in</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'register' %}">Register</a>
-                            </li>
-                        {% endif %}
+                        <li class="nav-item active">
+                            <a class="nav-link disabled px-3">Welcome, {{ user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
         </div>
-{#    ----------------------------------------------- NAVBAR END ------------------------------------------------#}
-
 
         <div class="container d-flex mt-5 w-100 p-3 mx-auto flex-column">
-            {% if SHOMOBAY_SHOMITI and SHOW_SHOMITI %}
-                <form class="form-signup" action='{% url 'leaderboard' %}' method="post">
-                    {% csrf_token %}
-                    <div class="form-check text-right p-3 mb-2">
-                        <input class="form-check-input" type="checkbox" onChange="this.form.submit()" value="True" id="showShomitiUser" name="showShomitiUser" {% if showShomitiUser %}
-                            checked
-                        {% endif %} >
-                        <label class="form-check-label" for="showShomitiUser">
-                        Show Shomiti
-                        </label>
-                    </div>
-                </form>
-            {% endif %}
             <main role="main">
                 <table class="table">
                     <thead>
@@ -78,12 +51,13 @@
                     </thead>
                     <tbody>
                     {% for p in rank_list %}
-                        <tr {% if p.username == user.username %}class="font-weight-bold"{% endif %}
-                          {% if SHOMOBAY_SHOMITI and SHOW_SHOMITI and p.participant.max_weight > THRESHOLD %}style="background-color: rgba(255, 0, 0, {{p.participant.max_weight}});"{% endif %}>
-                            <th scope="row">{{ p.participant.curr_level }}</th>
-                            <td>{{ p.username }}</td>
-                            <td>{{ p.participant.batch }}</td>
-                        </tr>
+                            <tr {% if p.username == user.username %}class="font-weight-bold"{% endif %}
+                                {% if SHOMOBAY_SHOMITI %}style="background-color: rgba(255, 0, 0, {{p.participant.max_weight}});"{% endif %}>
+                                <th scope="row">{{ p.participant.curr_level }}</th>
+                                <td>{{ p.username }}</td>
+                                <td>{{ p.participant.batch }}</td>
+                            </tr>
+
                     {% endfor %}
                     </tbody>
                 </table>

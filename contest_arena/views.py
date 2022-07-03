@@ -2,7 +2,7 @@ import datetime
 import random
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound
@@ -29,11 +29,20 @@ def home(request):
     return render(request, 'contest_arena/home.html', to_frontend)
 
 
-@login_required(login_url='login')
 def view_leaderboard_page(request):
-    participants = User.objects.filter(is_staff=False,
-                                       participant__last_successful_submission_time__isnull=False).order_by(
-        '-participant__curr_level', 'participant__last_successful_submission_time')
+    if request.method == 'POST':
+        request.session['showShomitiUser'] = (request.POST.get('showShomitiUser', 'False') == 'True')
+        return redirect('leaderboard')
+
+    if request.session.has_key('showShomitiUser') and request.session['showShomitiUser']:
+        participants = User.objects.filter(is_staff=False,
+                                           participant__last_successful_submission_time__isnull=False).order_by(
+            '-participant__curr_level', 'participant__last_successful_submission_time')
+    else:
+        participants = User.objects.filter(participant__max_weight__lte=settings.THRESHOLD,  is_staff=False,
+                                           participant__last_successful_submission_time__isnull=False).order_by(
+            '-participant__curr_level', 'participant__last_successful_submission_time')
+
     page = request.GET.get('page', 1)
     paginator = Paginator(participants, settings.LEADERBOARD_PAGE)
 
@@ -44,19 +53,48 @@ def view_leaderboard_page(request):
     except EmptyPage:
         rank_list = paginator.page(paginator.num_pages)
 
-    for p in rank_list:
-        p.participant.max_weight = max(0, p.participant.max_weight - 0.5) * 2
 
     to_frontend = {
         "user_active": request.user.is_authenticated,
         "user": request.user,
         "rank_list": rank_list,
-        "user_level": request.user.participant.curr_level,
+        "user_level": request.user.participant.curr_level if request.user.is_authenticated else None,
+        "SHOMOBAY_SHOMITI": settings.SHOMOBAY_SHOMITI,
+        "SHOW_SHOMITI": settings.SHOW_SHOMITI,
+        "THRESHOLD": settings.THRESHOLD,
+        "showShomitiUser": request.session['showShomitiUser'] if request.session.has_key('showShomitiUser') else False,
+    }
+
+    request.session.delete('showShomitiUser')
+    return render(request, 'contest_arena/leaderboard.html', to_frontend)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def view_admin_leaderboard_page(request):
+    participants = User.objects.filter(is_staff=False,
+                                       participant__last_successful_submission_time__isnull=False).order_by(
+        '-participant__curr_level', 'participant__last_successful_submission_time')
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(participants, settings.LEADERBOARD_PAGE)
+
+    try:
+        rank_list = paginator.page(page)
+    except PageNotAnInteger:
+        rank_list = paginator.page(1)
+    except EmptyPage:
+        rank_list = paginator.page(paginator.num_pages)
+
+    to_frontend = {
+        "user_active": request.user.is_authenticated,
+        "user": request.user,
+        "rank_list": rank_list,
+        "user_level": request.user.participant.curr_level if request.user.is_authenticated else None,
         "SHOMOBAY_SHOMITI": settings.SHOMOBAY_SHOMITI,
         "THRESHOLD": settings.THRESHOLD,
     }
 
-    return render(request, 'contest_arena/leaderboard.html', to_frontend)
+    return render(request, 'contest_arena/admin_leaderboard.html', to_frontend)
 
 
 @login_required(login_url='login')
@@ -101,18 +139,17 @@ def banned(request):
 
 
 @login_required(login_url='login')
-def load_next_puzzle(request, pk, var):
-
+def load_next_puzzle(request, pk):
     if request.user.participant.disabled and settings.SHOMOBAY_SHOMITI:
         return redirect('banned')
 
-    if var not in [0, 1, 2]:
-        return redirect('hackerman')
-
-    if pk == 0:
-        return HttpResponse("Why are you here?? 🙄🙄")
-    elif pk < request.user.participant.curr_level:
-        return HttpResponse("You have already solved this puzzle!")
+    if pk < request.user.participant.curr_level:
+        return redirect(
+            reverse(
+                'puzzle',
+                kwargs={'pk': request.user.participant.curr_level}
+            )
+        )
     elif pk > request.user.participant.curr_level:
         if settings.SHOW_HACK:
             return redirect('hackerman')
@@ -142,15 +179,11 @@ def load_next_puzzle(request, pk, var):
             to_frontend['puzzle'] = puzzle.first()
 
     if request.method == "GET":
-        """
-            0 => normal get puzzle
-            1 => wrong answer
-            2 => correct answer
-        """
-        if var == 0:
-            # return render(request, 'contest_arena/puzzle.html', to_frontend)
-            pass
-        elif var == 1:
+        var = 0
+        if request.session.has_key('var'):
+            var = request.session['var']
+
+        if var == 1:
             to_frontend['msg'] = "Wrong answer! Please try again"
 
             if settings.SHOW_MEME:
@@ -203,23 +236,26 @@ def load_next_puzzle(request, pk, var):
                 if settings.SHOMOBAY_SHOMITI:
                     HMModel(request.user.participant)
 
+                request.session['var'] = 2
                 return redirect(
                     reverse(
                         'puzzle',
-                        kwargs={'pk': request.user.participant.curr_level, 'var': 2}
+                        kwargs={'pk': request.user.participant.curr_level}
                     )
                 )
             else:
                 submit.status = 0
                 submit.save()
 
+                request.session['var'] = 1
                 return redirect(
                     reverse(
                         'puzzle',
-                        kwargs={'pk': request.user.participant.curr_level, 'var': 1}
+                        kwargs={'pk': request.user.participant.curr_level}
                     )
                 )
         else:
             return redirect('hackerman')
 
+    request.session['var'] = 0
     return render(request, 'contest_arena/puzzle.html', to_frontend)

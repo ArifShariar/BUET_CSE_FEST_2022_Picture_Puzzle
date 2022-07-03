@@ -24,12 +24,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mr-auto">
-                        {% if user_active %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'leaderboard' %}">Leaderboard</a>
                             </li>
+                        {% if user_active %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'puzzle' user_level 0 %}">Play</a>
+                                <a class="nav-link" href="{% url 'puzzle' user_level %}">Play</a>
                             </li>
                         {% endif %}
                     </ul>
