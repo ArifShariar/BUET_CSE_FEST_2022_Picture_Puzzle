@@ -23,8 +23,8 @@ def home(request):
     if request.user.is_authenticated:
         to_frontend["user_level"] = request.user.participant.curr_level
 
-    print(to_frontend["user_active"])
-    print(to_frontend["user"])
+    # print(to_frontend["user_active"])
+    # print(to_frontend["user"])
 
     return render(request, 'contest_arena/home.html', to_frontend)
 
@@ -53,6 +53,9 @@ def view_leaderboard_page(request):
     except EmptyPage:
         rank_list = paginator.page(paginator.num_pages)
 
+    for p in rank_list:
+        p.participant.max_weight = max(0, p.participant.max_weight - settings.THRESHOLD)/ settings.THRESHOLD
+        print(p.participant.max_weight)
 
     to_frontend = {
         "user_active": request.user.is_authenticated,
@@ -84,6 +87,9 @@ def view_admin_leaderboard_page(request):
         rank_list = paginator.page(1)
     except EmptyPage:
         rank_list = paginator.page(paginator.num_pages)
+
+    for p in rank_list:
+        p.participant.max_weight = max(0, p.participant.max_weight - settings.THRESHOLD) / settings.THRESHOLD
 
     to_frontend = {
         "user_active": request.user.is_authenticated,

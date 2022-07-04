@@ -6,14 +6,14 @@ from django.conf import settings
 
 
 def HMModel(participant):
-    print()
-    print("in reweight------------------------------------------->>")
+    # print()
+    # print("in reweight------------------------------------------->>")
 
     # should contain 1 object for each adjacent participant
     subs = Submission.objects.filter(status=1, level=participant.curr_level - 1, participant__batch=participant.batch)
 
-    print()
-    print()
+    # print()
+    # print()
     update_list_weights = []
     update_list_max_weights = []
     if not subs:
@@ -28,11 +28,11 @@ def HMModel(participant):
         except DetectorGraph.DoesNotExist:
             # starting value of weight
             prev_weight1 = DetectorGraph.objects.create(participant1=participant, participant2=sub.participant,
-                                                        weight=0.5)
+                                                        weight=settings.START_PROB)
             prev_weight2 = DetectorGraph.objects.create(participant1=sub.participant, participant2=participant,
-                                                        weight=0.5)
+                                                        weight=settings.START_PROB)
 
-        print("prev_weight ", prev_weight1.weight, prev_weight2.weight)
+        # print("prev_weight ", prev_weight1.weight, prev_weight2.weight)
 
         # HMM
         new_weight = updateProbabilityForOneTimeStep(prev_weight1.weight)
@@ -52,13 +52,13 @@ def HMModel(participant):
             sub.participant.max_weight = new_weight
             update_list_max_weights.append(sub.participant)
 
-        print(participant, sub.participant, diff, new_weight)
+        # print(participant, sub.participant, diff, new_weight)
 
     update_list_max_weights.append(participant)
     DetectorGraph.objects.bulk_update(update_list_weights, ['weight'])
     Participant.objects.bulk_update(update_list_max_weights, ['max_weight'])
-    print("out reweight------------------------------------------->>")
-    print()
+    # print("out reweight------------------------------------------->>")
+    # print()
 
 
 def EMISSION1(time_diff):

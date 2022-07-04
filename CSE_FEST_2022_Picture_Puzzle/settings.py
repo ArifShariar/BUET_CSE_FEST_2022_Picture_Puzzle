@@ -43,6 +43,7 @@ DEVIATION = float(os.getenv('DEVIATION'))
 SPREAD = float(os.getenv('SPREAD'))
 SCALE = float(os.getenv('SCALE'))
 THRESHOLD = float(os.getenv('THRESHOLD'))
+START_PROB = float(os.getenv('START_PROB'))
 
 TRANSITION00 = float(os.getenv('TRANSITION00'))     # -cheat(t+1)|-cheat(t)
 TRANSITION01 = float(os.getenv('TRANSITION01'))     # -cheat(t+1)|+cheat(t)

@@ -47,8 +47,8 @@ class ParticipantForm(forms.ModelForm):
     def clean_student_ID(self, *args, **kwargs):
         std_id = self.cleaned_data.get('student_ID')
 
-	if not std_id.isnumeric():
-		raise forms.ValidationError("Student ID must be numeric.")
+        if not std_id.isnumeric():
+            raise forms.ValidationError("Student ID must be numeric.")
 
         acc_type = int(self.cleaned_data.get('acc_type'))
 
@@ -65,7 +65,7 @@ class ParticipantForm(forms.ModelForm):
         if roll < 1:
             raise forms.ValidationError("This roll isn't valid.")
 
-        if acc_type == 1 and batch not in range(1, 17):   # need to include 90's batches
+        if acc_type == 1 and batch not in range(1, 17):  # need to include 90's batches
             raise forms.ValidationError("this is not a valid id")
 
         if acc_type == 2 and batch not in [17, 18, 19, 20]:
