@@ -27,7 +27,6 @@ if os.path.isfile(dot_env_path):
 
     load_dotenv(dot_env_path)
 
-
 """-------------------------------------------------- env variables start -----------------------------------------"""
 
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -45,13 +44,13 @@ SCALE = float(os.getenv('SCALE'))
 THRESHOLD = float(os.getenv('THRESHOLD'))
 START_PROB = float(os.getenv('START_PROB'))
 
-TRANSITION00 = float(os.getenv('TRANSITION00'))     # -cheat(t+1)|-cheat(t)
-TRANSITION01 = float(os.getenv('TRANSITION01'))     # -cheat(t+1)|+cheat(t)
-TRANSITION10 = float(os.getenv('TRANSITION10'))     # +cheat(t+1)|-cheat(t)
-TRANSITION11 = float(os.getenv('TRANSITION11'))     # +cheat(t+1)|+cheat(t)
+TRANSITION00 = float(os.getenv('TRANSITION00'))  # -cheat(t+1)|-cheat(t)
+TRANSITION01 = float(os.getenv('TRANSITION01'))  # -cheat(t+1)|+cheat(t)
+TRANSITION10 = float(os.getenv('TRANSITION10'))  # +cheat(t+1)|-cheat(t)
+TRANSITION11 = float(os.getenv('TRANSITION11'))  # +cheat(t+1)|+cheat(t)
 
-EMISSION00 = float(os.getenv('EMISSION00'))         # +time(t)|-cheat(t)
-EMISSION01 = float(os.getenv('EMISSION01'))         # -time(t)|-cheat(t)
+EMISSION00 = float(os.getenv('EMISSION00'))  # +time(t)|-cheat(t)
+EMISSION01 = float(os.getenv('EMISSION01'))  # -time(t)|-cheat(t)
 
 MEME_WRONG = int(os.getenv('MEME_WRONG'))
 SHOW_HACK = (os.getenv('SHOW_HACK') == 'True')
@@ -111,25 +110,20 @@ WSGI_APPLICATION = 'CSE_FEST_2022_Picture_Puzzle.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if os.getenv('SERVER') is True:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.getenv('DB_NAME'),
-            'USER': os.getenv('DB_USER'),
-            'PASSWORD': os.getenv('DB_PASS'),
-            'HOST': os.getenv('DB_HOST'),
-            'PORT': os.getenv('DB_PORT'),
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
     }
+}
 
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
