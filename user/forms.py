@@ -46,6 +46,10 @@ class ParticipantForm(forms.ModelForm):
 
     def clean_student_ID(self, *args, **kwargs):
         std_id = self.cleaned_data.get('student_ID')
+
+	if not std_id.isnumeric():
+		raise forms.ValidationError("Student ID must be numeric.")
+
         acc_type = int(self.cleaned_data.get('acc_type'))
 
         batch = int(std_id[0:2])
@@ -53,18 +57,18 @@ class ParticipantForm(forms.ModelForm):
         roll = int(std_id[4:7])
 
         if dept != 5:
-            raise forms.ValidationError("this is not a valid id")
+            raise forms.ValidationError("You're not from BUET CSE Department. Sorry.")
 
         if roll > 125:
-            raise forms.ValidationError("this is not a valid id")
+            raise forms.ValidationError("This roll isn't valid.")
 
         if roll < 1:
-            raise forms.ValidationError("this is not a valid id")
+            raise forms.ValidationError("This roll isn't valid.")
 
         if acc_type == 1 and batch not in range(1, 17):   # need to include 90's batches
             raise forms.ValidationError("this is not a valid id")
 
         if acc_type == 2 and batch not in [17, 18, 19, 20]:
-            raise forms.ValidationError("this is not a valid id")
+            raise forms.ValidationError("You're not a current student, please select ALUMNI option from below.")
 
         return std_id
