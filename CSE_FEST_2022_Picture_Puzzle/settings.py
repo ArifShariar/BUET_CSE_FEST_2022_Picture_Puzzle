@@ -30,7 +30,7 @@ if os.path.isfile(dot_env_path):
 """-------------------------------------------------- env variables start -----------------------------------------"""
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = (os.getenv('DEBUG') == 'True')
+DEBUG = False
 LEADERBOARD_PAGE = int(os.getenv('LEADERBOARD_PAGE'))
 CONTEST_STARTED = (os.getenv('CONTEST_STARTED') == 'True')
 CONTEST_ENDED = (os.getenv('CONTEST_ENDED') == 'True')
