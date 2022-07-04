@@ -64,8 +64,8 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <img class="pr-5 pl-3 pb-3" src="{{ meme.test_link }}" alt="{{ meme.text }}" style="max-height: 400px; max-width: 400px;">
-{#                                <img class="pr-5 pl-3 pb-3" src="{{ meme.get_image }}" alt="{{ meme.text }}" style="max-height: 400px; max-width: 400px;">#}
+{#                                <img class="pr-5 pl-3 pb-3" src="{{ meme.test_link }}" alt="{{ meme.text }}" style="max-height: 400px; max-width: 400px;">#}
+                                <img class="pr-5 pl-3 pb-3" src="{{ meme.get_image }}" alt="{{ meme.text }}" style="max-height: 400px; max-width: 400px;">
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
 
 
 
-            <main role="main" class="py-lg-5">
+            <main role="main" class="py-5">
                 {% if msg %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         {{ msg }}
@@ -87,8 +87,8 @@
 
                 {% if puzzle %}
                     {% if puzzle.title %}<h2 class="mt-5">{{ puzzle.title }}</h2>{% endif %}
-                    <img class="mt-4" src="{{ puzzle.info_link }}" alt="{{puzzle.title}}" style="max-height: 400px; max-width: 400px;">
-{#                    <img class="mt-4" src="{{ puzzle.get_image }}" alt="{{puzzle.title}}" style="max-height: 400px; max-width: 400px;">#}
+{#                    <img class="mt-4" src="{{ puzzle.info_link }}" alt="{{puzzle.title}}" style="max-height: 400px; max-width: 400px;">#}
+                    <img class="mt-4" src="{{ puzzle.get_image }}" alt="{{puzzle.title}}" style="max-height: 400px; max-width: 400px;">
                     <form method="post">
                         {% csrf_token %}
                         <div class="container mt-5 mb-5" style="max-width: 400px">

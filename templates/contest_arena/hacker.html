@@ -42,12 +42,12 @@
 {#    ----------------------------------------------- NAVBAR END ------------------------------------------------#}
 
         <div class="container d-flex mt-5 w-100 p-3 mx-auto flex-column">
-            <main role="main" class="py-lg-5">
+            <main role="main" class="py-5">
                 <h1>Why you heck me :(</h1>
                 <h2 class="mt-5">{{ random_quote }}</h2>
                 {% if random_image %}
-                    <img class="mt-4" src="{{ random_image.test_link }}" alt="meme" style="max-height: 400px; max-width: 400px;">
-{#                    <img class="mt-4" src="{{ random_image.get_image }}" alt="meme" style="max-height: 400px; max-width: 400px;">#}
+{#                    <img class="mt-4" src="{{ random_image.test_link }}" alt="meme" style="max-height: 400px; max-width: 400px;">#}
+                    <img class="mt-4" src="{{ random_image.get_image }}" alt="meme" style="max-height: 400px; max-width: 400px;">
                 {% else %}
 {#                    <img class="mt-4 w-75" src="{% static 'images/7ee35c124398243.Y3JvcCwzNDA5LDI2NjcsMjk1LDA.png' %}" alt="meme">#}
                 {% endif %}

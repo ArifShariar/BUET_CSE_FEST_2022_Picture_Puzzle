@@ -1,4 +1,16 @@
-/*
- * Globals
- */
+section {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+section #bg-full-logo {
+    pointer-events: none;
+    max-height: 100vh;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    opacity: 10%;
+}
