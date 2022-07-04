@@ -37,6 +37,7 @@ class ParticipantForm(forms.ModelForm):
         self.fields['acc_type'] = forms.ChoiceField(choices=ACC_TYPE)
         self.fields['acc_type'].widget.attrs = {'class': 'form-control', 'required': 'required'}
 
+        self.fields['student_ID'] = forms.CharField(widget=forms.TextInput, max_length=7, min_length=7)
         self.fields['student_ID'].widget.attrs = {'class': 'form-control', 'required': 'required',
                                                   'placeholder': 'Student Id'}
 
