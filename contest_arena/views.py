@@ -102,6 +102,7 @@ def hack(request):
     to_frontend = {
         "user_active": request.user.is_authenticated,
         "user": request.user,
+        "user_level": request.user.participant.curr_level,
     }
 
     if HackerManImage.objects.count() == 0 or AlumniHackermanQuote.objects.count() == 0 or CurrentStudentHackerQuote.objects.count() == 0:
