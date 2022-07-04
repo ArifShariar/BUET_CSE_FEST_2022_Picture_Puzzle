@@ -79,7 +79,7 @@
                     <tbody class="my-table-body">
                     {% for p in rank_list %}
                         <tr {% if p.username == user.username %}class="font-weight-bold"{% endif %}
-                          {% if SHOMOBAY_SHOMITI and SHOW_SHOMITI and p.participant.max_weight > THRESHOLD %}style="background-color: rgba(255, 0, 0, {{p.participant.max_weight}});"{% endif %}>
+                          {% if SHOMOBAY_SHOMITI and SHOW_SHOMITI and p.participant.max_weight > 0 %}style="background-color: rgba(255, 0, 0, {{p.participant.max_weight}});"{% endif %}>
                             <th scope="row">{{ p.participant.curr_level }}</th>
                             <td>{{ p.username }}</td>
                             <td>{{ p.participant.batch }}</td>

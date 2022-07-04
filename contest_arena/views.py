@@ -54,8 +54,7 @@ def view_leaderboard_page(request):
         rank_list = paginator.page(paginator.num_pages)
 
     for p in rank_list:
-        p.participant.max_weight = max(0, p.participant.max_weight - settings.THRESHOLD)/ settings.THRESHOLD
-        print(p.participant.max_weight)
+        p.participant.max_weight = max(0, p.participant.max_weight - settings.THRESHOLD) / settings.THRESHOLD
 
     to_frontend = {
         "user_active": request.user.is_authenticated,
