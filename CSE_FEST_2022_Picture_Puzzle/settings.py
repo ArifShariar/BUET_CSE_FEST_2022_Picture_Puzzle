@@ -30,7 +30,8 @@ if os.path.isfile(dot_env_path):
 """-------------------------------------------------- env variables start -----------------------------------------"""
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = False
+SERVER = (os.getenv('SERVER') == 'True')
+DEBUG = (os.getenv('DEBUG') == 'True')
 LEADERBOARD_PAGE = int(os.getenv('LEADERBOARD_PAGE'))
 CONTEST_STARTED = (os.getenv('CONTEST_STARTED') == 'True')
 CONTEST_ENDED = (os.getenv('CONTEST_ENDED') == 'True')
@@ -110,19 +111,27 @@ WSGI_APPLICATION = 'CSE_FEST_2022_Picture_Puzzle.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASS'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+if SERVER:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASS'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT'),
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+            }
         }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
