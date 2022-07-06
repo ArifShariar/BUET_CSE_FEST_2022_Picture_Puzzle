@@ -4,13 +4,13 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>BUET CSE FEST 2022 Picture Puzzle</title>
-        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <title>Home | BUET CSE FEST 2022 Picture Puzzle</title>
 
-        <!-- Custom styles for this template -->
+        <link rel="icon" href="{% static 'images/favicon.png' %}">
+{#        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">#}
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/base.css' %}" rel="stylesheet">
         <link href="{% static 'css/home.css' %}" rel="stylesheet">
-
     </head>
 
     <body class="text-center">
@@ -61,14 +61,34 @@
             <main role="main" class="py-5">
 
                 <img src="{% static 'images/full_logo.png' %}" id="full-logo" style="max-width: 180px; max-height: 180px;" alt="logo">
-                <h1 class="mt-4" id="header1"><span>BUET CSE FEST 2022</span></h1>
+                <h1 class="mt-4" id="header1"><span style="font-weight: 800;">BUET CSE FEST 2022</span></h1>
                 <h2 id="header2"><span>Picture Puzzle</span></h2>
                 <p id="para"><span>Sign up and have fun!</span></p>
             </main>
 
         </div>
         {% include 'base/footer.html' %}
-        <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+        <!--Custom Analytics Start -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1.0.2/src/ua-parser.min.js"></script>
+        <script src="https://buetcsefest2022.com/js/userData.js"></script>
+        <!-- Custom Analytics End -->
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LJKD7N3E0N"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-LJKD7N3E0N');
+        </script>
+        <!-- Gtag End -->
+        
     </body>
 </html>

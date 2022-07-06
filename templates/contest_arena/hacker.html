@@ -5,8 +5,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>BUET CSE FEST 2022 Picture Puzzle</title>
+        <title>Hackerman | BUET CSE FEST 2022 Picture Puzzle</title>
 
+        <link rel="icon" href="{% static 'images/favicon.png' %}">
         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/base.css' %}" rel="stylesheet">
     </head>
@@ -43,8 +44,7 @@
 
         <div class="container d-flex mt-5 w-100 p-3 mx-auto flex-column">
             <main role="main" class="py-5">
-                <h1>Why you heck me :(</h1>
-                <h2 class="mt-5">{{ random_quote }}</h2>
+                <h1 class="mt-5">{{ random_quote }}</h1>
                 {% if random_image %}
 {#                    <img class="mt-4" src="{{ random_image.test_link }}" alt="meme" style="max-height: 400px; max-width: 400px;">#}
                     <img class="mt-4" src="{{ random_image.get_image }}" alt="meme" style="max-height: 400px; max-width: 400px;">
@@ -54,5 +54,7 @@
             </main>
         </div>
         {% include 'base/footer.html' %}
+        <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     </body>
 </html>

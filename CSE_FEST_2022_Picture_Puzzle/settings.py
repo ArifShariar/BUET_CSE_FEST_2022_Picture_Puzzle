@@ -10,10 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path
 import os
 from pathlib import Path
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,37 +26,38 @@ if os.path.isfile(dot_env_path):
     load_dotenv(dot_env_path)
 
 """-------------------------------------------------- env variables start -----------------------------------------"""
+SERVER = False
+DEBUG = True
+SECRET_KEY = "h^z13$qr_s_wd65@gnj7a=xs7t05$w7q8!x_8zsld#"
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = False
-LEADERBOARD_PAGE = int(os.getenv('LEADERBOARD_PAGE'))
-CONTEST_STARTED = (os.getenv('CONTEST_STARTED') == 'True')
-CONTEST_ENDED = (os.getenv('CONTEST_ENDED') == 'True')
+CONTEST_STARTED = True
+CONTEST_ENDED = False
 
 
-SHOMOBAY_SHOMITI = (os.getenv('SHOMOBAY_SHOMITI') == 'True')
-MEAN = float(os.getenv('MEAN'))
-DEVIATION = float(os.getenv('DEVIATION'))
-SPREAD = float(os.getenv('SPREAD'))
-SCALE = float(os.getenv('SCALE'))
-THRESHOLD = float(os.getenv('THRESHOLD'))
-START_PROB = float(os.getenv('START_PROB'))
+SHOW_MEME = True
+SHOW_HACK = True
 
-TRANSITION00 = float(os.getenv('TRANSITION00'))  # -cheat(t+1)|-cheat(t)
-TRANSITION01 = float(os.getenv('TRANSITION01'))  # -cheat(t+1)|+cheat(t)
-TRANSITION10 = float(os.getenv('TRANSITION10'))  # +cheat(t+1)|-cheat(t)
-TRANSITION11 = float(os.getenv('TRANSITION11'))  # +cheat(t+1)|+cheat(t)
 
-EMISSION00 = float(os.getenv('EMISSION00'))  # +time(t)|-cheat(t)
-EMISSION01 = float(os.getenv('EMISSION01'))  # -time(t)|-cheat(t)
+SHOMOBAY_SHOMITI = True
+SHOW_SHOMITI = True
+MEAN = 0.5
+DEVIATION = 2
+SPREAD = 60
+SCALE = 0.9
+TRANSITION00 = 0.8     # -cheat(t+1)|-cheat(t)
+TRANSITION01 = 0.1     # -cheat(t+1)|+cheat(t)
+TRANSITION10 = 0.2     # +cheat(t+1)|-cheat(t)
+TRANSITION11 = 0.9     # +cheat(t+1)|+cheat(t)
+EMISSION00 = 0.6       # +time(t)|-cheat(t)
+EMISSION01 = 0.4       # -time(t)|-cheat(t)
+THRESHOLD = 0.7
+START_PROB = 0.2
 
-MEME_WRONG = int(os.getenv('MEME_WRONG'))
-SHOW_HACK = (os.getenv('SHOW_HACK') == 'True')
-SHOW_MEME = (os.getenv('SHOW_MEME') == 'True')
-SHOW_SHOMITI = (os.getenv('SHOW_SHOMITI') == 'True')
+LEADERBOARD_PAGE = 10
+MEME_WRONG = 5
 
 """-------------------------------------------------- env variables end -------------------------------------------"""
-ALLOWED_HOSTS = ['ppuzzle.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -68,7 +67,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+
     'user',
     'contest_arena',
     'shomobay_shomiti_detector',
@@ -77,13 +78,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'CSE_FEST_2022_Picture_Puzzle.urls'
@@ -110,20 +111,24 @@ WSGI_APPLICATION = 'CSE_FEST_2022_Picture_Puzzle.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASS'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+if SERVER:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'mysql.connector.django',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASS'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT')
         }
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -154,21 +159,26 @@ USE_I18N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = 'static/'
+# Extra places for collectstatic to find assets files.
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-django_heroku.settings(locals())

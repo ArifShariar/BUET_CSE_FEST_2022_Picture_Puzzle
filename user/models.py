@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from CSE_FEST_2022_Picture_Puzzle import settings
+
 
 class Participant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -9,7 +11,7 @@ class Participant(models.Model):
     batch = models.IntegerField(default=0)
     curr_level = models.IntegerField(default=1)
     last_successful_submission_time = models.DateTimeField(default=None, blank=True, null=True)
-    max_weight = models.FloatField(default=0.5)
+    max_weight = models.FloatField(default=settings.START_PROB)
     # this field will be used by the admin to temporarily activate or deactivate a participant
     disabled = models.BooleanField(default=False)
 

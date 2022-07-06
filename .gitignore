@@ -21,3 +21,4 @@ venv/
 media/
 desktop.ini
 playground.py
+staticfiles/
